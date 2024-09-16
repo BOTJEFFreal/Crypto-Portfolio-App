@@ -1,14 +1,29 @@
 import React from 'react';
-import TransferToken from './pages/TransferToken';
-function App() {
-  const tokenAddress = '0x111111111111111111111111';
+import Header from './components/Header/Header';
+import Sidebar from './components/Sidebar/Sidebar';
+import AccountBalance from './components/AccountBalance/AccountBalance';
+import TokenList from './components/TokenList/TokenList';
+import './App.css';
+import { CoinContext } from './context/CoinContext';
+import HomePage from './pages/HomePage';
+import SearchBar from './components/SearchBar/SearchBar';
 
+const App = () => {
   return (
-    <div>
-      <h1>Token Transfer App</h1>
-      <TransferToken tokenAddress={tokenAddress} />
-    </div>
+    // <div className="app">
+    //   <Header />
+    //   <div className="app-body">
+    //     <Sidebar />
+    //     <main className="content">
+    //       <AccountBalance />          
+    //         <TokenList />
+          
+    //     </main>
+    //   </div>
+    // </div>
+    <SearchBar/>
+    
   );
-}
+};
 
 export default App;

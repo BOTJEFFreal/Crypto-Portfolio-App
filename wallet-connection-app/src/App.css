@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,24 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  color: white;
+  background-color: #1b1b1b;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
 }

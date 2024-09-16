@@ -1,0 +1,31 @@
+.account-balance {
+    background-color: #2b2b2b;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    color: white;
+  }
+  
+  .balance-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .balance-change {
+    color: #4caf50;
+    margin-left: 10px;
+  }
+  
+  .tabs {
+    margin-top: 10px;
+    display: flex;
+  }
+  
+  .tab {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
