@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import "./SearchBar.css";
 import getCoinList from "../../service/getCoinList";
+import { CoinContext } from "../../context/CoinContext";
 
 function SearchBar() {
   const [coins, setCoins] = useState(() => {
@@ -12,12 +13,10 @@ function SearchBar() {
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(5);
-  const [favorites, setFavorites] = useState(() => {
-    const storedFavorites = localStorage.getItem("favorites");
-    return storedFavorites ? JSON.parse(storedFavorites) : [];
-  });
+  const { coinsList, setCoinsList } = useContext(CoinContext);
 
   const suggestionsRef = useRef(null);
+  const containerRef = useRef(null);
 
   // Fetch coin list from API or localStorage
   useEffect(() => {
@@ -26,6 +25,25 @@ function SearchBar() {
       getCoinList(setCoins);
     }
   }, [coins]);
+
+  // Add event listener to detect clicks outside the component
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setShowSuggestions(false);
+        setActiveSuggestionIndex(0);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Handle search input change
   const handleInputChange = (event) => {
@@ -72,21 +90,24 @@ function SearchBar() {
     setActiveSuggestionIndex(0);
   };
 
+  // Get tokens array safely
+  const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
+
   // Handle adding/removing a coin to/from favorites
   const handleFavoriteClick = (coin, event) => {
     event.stopPropagation();
-    let updatedFavorites;
-
-    if (favorites.some((favCoin) => favCoin.id === coin.id)) {
+    let updatedTokens;
+  
+    if (tokens.some((favCoin) => favCoin.id === coin.id)) {
       // Remove from favorites
-      updatedFavorites = favorites.filter((favCoin) => favCoin.id !== coin.id);
+      updatedTokens = tokens.filter((favCoin) => favCoin.id !== coin.id);
     } else {
       // Add to favorites
-      updatedFavorites = [...favorites, coin];
+      updatedTokens = [...tokens, coin];
     }
-
-    setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  
+    setCoinsList({ tokens: updatedTokens });
+    localStorage.setItem('favorites', JSON.stringify(updatedTokens));
   };
 
   // Infinite scroll handler
@@ -101,8 +122,11 @@ function SearchBar() {
     }
   };
 
+  console.log('coinsList:', coinsList);
+  console.log('tokens:', tokens);
+
   return (
-    <div style={{ position: "relative", width: "300px" }}>
+    <div ref={containerRef} style={{ position: "relative", width: "300px" }}>
       <h1>Search Coins</h1>
       <input
         type="text"
@@ -145,7 +169,9 @@ function SearchBar() {
                   onClick={(event) => handleFavoriteClick(coin, event)}
                   style={{ cursor: "pointer" }}
                 >
-                  {favorites.some((favCoin) => favCoin.id === coin.id) ? "★" : "☆"}
+                  {tokens.some((favCoin) => favCoin.id === coin.id)
+                    ? "★"
+                    : "☆"}
                 </span>
               </li>
             ))}

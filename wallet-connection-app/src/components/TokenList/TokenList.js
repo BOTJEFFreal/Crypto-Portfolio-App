@@ -1,12 +1,19 @@
 import React, { useContext } from 'react';
-import './TokenList.css'; 
-import { CoinContext } from '../../context/CoinContext'; 
+import { useNavigate } from 'react-router-dom';
+import './TokenList.css';
+import { CoinContext } from '../../context/CoinContext';
 
 const TokenList = () => {
-  const coinsList = useContext(CoinContext); 
+  const { coinsList } = useContext(CoinContext);
+  const navigate = useNavigate();
+
+  const handleTokenClick = (token) => {
+    navigate(`/token/${token.symbol}`, { state: { token } });
+  };
 
   return (
     <div className="token-list">
+      <h2>Your Tokens</h2>
       <table>
         <thead>
           <tr>
@@ -17,14 +24,27 @@ const TokenList = () => {
           </tr>
         </thead>
         <tbody>
-          {coinsList.tokens.map((token) => (
-            <tr key={token.symbol}>
-              <td>{token.name} ({token.symbol})</td>
-              <td>{token.portfolio}</td>
-              <td>{token.price}</td>
-              <td>{token.balance}</td>
+          {coinsList.tokens.length > 0 ? (
+            coinsList.tokens.map((token) => (
+              <tr key={token.symbol}>
+                <td>
+                  <span
+                    onClick={() => handleTokenClick(token)}
+                    className="token-name"
+                  >
+                    {token.name} ({token.symbol})
+                  </span>
+                </td>
+                <td>{token.portfolio}</td>
+                <td>{token.price}</td>
+                <td>{token.balance}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">No tokens available.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

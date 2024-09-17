@@ -1,5 +1,3 @@
-// src/service/getCoinList.js
-
 import axios from 'axios';
 
 const getCoinList = async (setCoins) => {
@@ -18,9 +16,10 @@ const getCoinList = async (setCoins) => {
           params: {
             vs_currency: 'usd',
             order: 'market_cap_desc',
-            per_page: 250, 
+            per_page: 250,
             page: 1,
-            sparkline: true,
+            sparkline: true, // Include sparkline data
+            price_change_percentage: '1h,24h,7d', // Include percentage changes
           },
         }
       );

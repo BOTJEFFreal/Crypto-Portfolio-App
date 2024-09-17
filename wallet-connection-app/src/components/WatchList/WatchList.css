@@ -1,0 +1,47 @@
+.watchlist-container {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .watchlist-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .watchlist-table th,
+  .watchlist-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .watchlist-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .coin-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .coin-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+
+  .delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: darkred;
+  }
