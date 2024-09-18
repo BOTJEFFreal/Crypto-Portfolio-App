@@ -1,0 +1,24 @@
+.token-stats {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .token-stats h3 {
+    margin-bottom: 15px;
+    font-size: 1.5em;
+  }
+  
+  .token-stats ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .token-stats li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+  }
+  
+  .token-stats strong {
+    color: #333;
+  }

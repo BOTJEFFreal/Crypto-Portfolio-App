@@ -1,12 +1,13 @@
+// src/components/WatchList/WatchList.js
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import { Sparklines, SparklinesLine } from 'react-sparklines';
-import './Watchlist.css';
+import './WatchList.css';
 import { CoinContext } from '../../context/CoinContext';
 
 const Watchlist = () => {
   const { coinsList, setCoinsList } = useContext(CoinContext);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
 
@@ -22,9 +23,9 @@ const Watchlist = () => {
     return 'black';
   };
 
-  // Modify the handler to navigate to TokenDetail page
-  const handleTokenClick = (coin) => {
-    navigate(`/token/${coin.symbol}`, { state: { token: coin } });
+  // Navigate to TokenDataPage with the token's id
+  const handleViewData = (id) => {
+    navigate(`/token-data/${id}`);
   };
 
   return (
@@ -42,7 +43,7 @@ const Watchlist = () => {
               <th>24h Volume</th>
               <th>Market Cap</th>
               <th>Last 7 Days</th>
-              <th>Action</th>
+              <th>Actions</th> {/* Updated Header */}
             </tr>
           </thead>
           <tbody>
@@ -57,7 +58,9 @@ const Watchlist = () => {
                     <div
                       className="coin-info"
                       style={{ cursor: 'pointer' }}
-                      onClick={() => handleTokenClick(coin)}
+                      onClick={() =>
+                        navigate(`/token/${coin.id}`, { state: { tokens } })
+                      }
                     >
                       <img src={coin.image} alt={coin.name} className="coin-icon" />
                       <span>
@@ -87,6 +90,12 @@ const Watchlist = () => {
                     )}
                   </td>
                   <td>
+                    <button
+                      onClick={() => handleViewData(coin.id)}
+                      className="view-data-button"
+                    >
+                      View Data
+                    </button>
                     <button onClick={() => handleDelete(coin.id)} className="delete-button">
                       Delete
                     </button>

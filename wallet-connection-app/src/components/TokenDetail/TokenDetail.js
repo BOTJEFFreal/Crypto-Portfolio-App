@@ -1,5 +1,3 @@
-// src/components/TokenDetail/TokenDetail.js
-
 import React, { useContext } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { CoinContext } from '../../context/CoinContext';

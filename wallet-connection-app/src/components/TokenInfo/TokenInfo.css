@@ -1,0 +1,14 @@
+.token-info {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.token-info p {
+  margin: 10px 0;
+  font-size: 1.1em;
+}
+
+.token-info strong {
+  color: #333;
+}

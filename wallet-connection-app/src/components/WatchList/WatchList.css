@@ -1,4 +1,4 @@
-.watchlist-container {
+/* .watchlist-container {
     margin: 20px;
     padding: 10px;
     border: 1px solid #ddd;
@@ -44,4 +44,79 @@
   
   .delete-button:hover {
     background-color: darkred;
-  }
+  } */
+
+
+  /* src/pages/Watchlist.css */
+
+.watchlist-page {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.watchlist-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.watchlist-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.watchlist-table th, .watchlist-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.watchlist-table th {
+  background-color: #f2f2f2;
+}
+
+.coin-logo {
+  width: 30px;
+  height: 30px;
+}
+
+.transfer-button {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.transfer-button:hover {
+  background-color: #3da9a9;
+}
+
+
+.view-data-button {
+  background-color: #28a745; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.view-data-button:hover {
+  background-color: #218838;
+}
+
+.delete-button {
+  background-color: #dc3545; /* Red */
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}

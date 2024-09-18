@@ -1,0 +1,55 @@
+.token-chart {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.chart-toggle,
+.timeframe-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.chart-toggle button,
+.timeframe-buttons button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1em;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.chart-toggle button.active,
+.timeframe-buttons button.active {
+  background-color: #3498db;
+  color: #ffffff;
+  border-color: #3498db;
+}
+
+.chart-toggle button:hover,
+.timeframe-buttons button:hover {
+  background-color: #2980b9;
+  color: #ffffff;
+  border-color: #2980b9;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+}
+
+.apexcharts-candlestick-tooltip {
+  background-color: #ffffff;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 12px;
+}

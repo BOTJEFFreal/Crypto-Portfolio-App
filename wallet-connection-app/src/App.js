@@ -2,11 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CoinProvider } from './context/CoinContext';
 import Header from './components/Header/Header';
-import AccountBalance from './components/AccountBalance/AccountBalance';
-import SearchBar from './components/SearchBar/SearchBar';
-import TokenList from './components/TokenList/TokenList';
+import HomePage from './pages/HomePage/HomePage';
 import TokenDetail from './components/TokenDetail/TokenDetail';
-import HomePage from './pages/HomePage';
+import TokenDataPage from './pages/TokenDataPage/TokenDataPage';
 import './App.css';
 
 function App() {
@@ -17,9 +15,10 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            {/* <Route path="/tokens" element={<TokenList />} /> */}
-            <Route path="/token/:symbol" element={<TokenDetail />} />
-            {/* Ensure this route is present */}
+            {/* Existing Routes */}
+            <Route path="/token/:id" element={<TokenDetail />} />
+            {/* Updated Route for TokenDataPage using id */}
+            <Route path="/token-data/:id" element={<TokenDataPage />} />
           </Routes>
         </div>
       </Router>

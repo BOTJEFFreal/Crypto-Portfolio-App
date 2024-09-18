@@ -1,4 +1,4 @@
-.token-list {
+/* .token-list {
   padding: 20px;
 }
 
@@ -30,4 +30,101 @@
 
 .token-list tbody tr:hover {
   background-color: #f9f9f9;
+} */
+
+/* src/components/TokenList/TokenList.css */
+.token-list-container {
+  padding: 20px;
+}
+
+.token-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.token-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 15px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.token-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.token-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.token-actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.token-actions button {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.token-actions button:hover {
+  background-color: #f0f0f0;
+}
+
+.token-chart {
+  margin-bottom: 10px;
+}
+
+.token-info p {
+  margin: 5px 0;
+}
+
+.token-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.view-details-button,
+.delete-button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 7px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: #dc3545;
+}
+
+.view-details-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.token-actions button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
 }
