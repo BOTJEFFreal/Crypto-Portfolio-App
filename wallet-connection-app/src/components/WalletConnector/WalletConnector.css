@@ -1,0 +1,45 @@
+/* src/components/WalletConnector/WalletConnector.css */
+
+.wallet-connector {
+    display: flex;
+    align-items: center;
+  }
+  
+  .connect-button {
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .connect-button:hover {
+    background-color: #555;
+    color: white;
+  }
+  
+  .wallet-connected .disconnect-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .wallet-connected .wallet-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, yellow, blue, red);
+  }
+  
+  .wallet-connected .disconnect-button:hover .wallet-indicator {
+    opacity: 0.8;
+  }
+  

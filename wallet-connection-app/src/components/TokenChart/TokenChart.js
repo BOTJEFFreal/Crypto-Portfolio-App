@@ -8,6 +8,7 @@ import ChartRenderer from './ChartRenderer';
 import { getLineChartData, getCandleChartData, getCustomChartData } from '../../service/chartDataService';
 import getLineChartOptions from '../../config/lineChartOptions';
 import getCandleChartOptions from '../../config/candleChartOptions';
+import { getCachedData, setCachedData } from '../../service/cacheUtils'
 import './TokenChart.css';
 
 const TokenChart = ({ id }) => {
@@ -19,22 +20,47 @@ const TokenChart = ({ id }) => {
   const [error, setError] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [customRange, setCustomRange] = useState({ from: null, to: null });
-  const cache = useRef({});
+  const cache = useRef({}); // Initialize cache
 
+  // Fetch all data with caching for lineData
   const fetchAllData = async (currentTimeframe) => {
     setLoading(true);
     try {
       if (currentTimeframe === 'custom') {
         if (customRange.from && customRange.to) {
-          const { lineData } = await getCustomChartData(id, customRange.from, customRange.to, cache);
-          setLineData(lineData);
-          setCandleData([]); 
+          const cacheKey = `line_${id}_custom_${customRange.from}_${customRange.to}`;
+          const cachedLineData = getCachedData(cache, cacheKey);
+
+          if (cachedLineData) {
+            setLineData(cachedLineData);
+            setCandleData([]); // No candle data for custom range
+          } else {
+            const { lineData } = await getCustomChartData(id, customRange.from, customRange.to);
+            setLineData(lineData);
+            setCandleData([]);
+            setCachedData(cache, cacheKey, lineData);
+          }
         }
       } else {
-        const [fetchedLineData, fetchedCandleData] = await Promise.all([
-          getLineChartData(id, currentTimeframe, cache),
-          getCandleChartData(id, currentTimeframe, cache),
-        ]);
+        const cacheKey = `line_${id}_${currentTimeframe}`;
+        const cachedLineData = getCachedData(cache, cacheKey);
+
+        let fetchedLineData;
+        let fetchedCandleData;
+
+        if (cachedLineData) {
+          fetchedLineData = cachedLineData;
+        } else {
+          fetchedLineData = await getLineChartData(id, currentTimeframe);
+          setCachedData(cache, cacheKey, fetchedLineData);
+        }
+
+        // For candleData, you can implement similar caching if desired
+        fetchedCandleData = await getCandleChartData(id, currentTimeframe);
+        // Optionally cache candleData as well
+        // const candleCacheKey = `candle_${id}_${currentTimeframe}`;
+        // setCachedData(cache, candleCacheKey, fetchedCandleData);
+
         setLineData(fetchedLineData);
         setCandleData(fetchedCandleData);
       }
@@ -63,9 +89,12 @@ const TokenChart = ({ id }) => {
 
   useEffect(() => {
     fetchAllData(timeframe);
-  }, [timeframe, customRange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeframe, customRange]); // Depend on timeframe and customRange
 
-  const isProfit = lineData.length > 0 && parseFloat(lineData[lineData.length - 1].price) > parseFloat(lineData[0].price);
+  const isProfit =
+    lineData.length > 0 &&
+    parseFloat(lineData[lineData.length - 1].price) > parseFloat(lineData[0].price);
 
   const lineChartOptions = getLineChartOptions(isProfit, lineData);
   const candleChartOptions = getCandleChartOptions();

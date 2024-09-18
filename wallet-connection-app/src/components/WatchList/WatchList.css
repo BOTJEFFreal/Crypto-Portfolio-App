@@ -1,107 +1,69 @@
-/* .watchlist-container {
-    margin: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .watchlist-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .watchlist-table th,
-  .watchlist-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-  }
-  
-  .watchlist-table th {
-    background-color: #f2f2f2;
-  }
-  
-  .coin-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .coin-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-  }
-
-  .delete-button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .delete-button:hover {
-    background-color: darkred;
-  } */
-
-
-  /* src/pages/Watchlist.css */
-
-.watchlist-page {
-  padding: 40px;
-  max-width: 1000px;
-  margin: 0 auto;
+.watchlist-container {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.watchlist-page h1 {
+.watchlist-container h2 {
   text-align: center;
-  margin-bottom: 30px;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
+/* Watchlist table */
 .watchlist-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
-.watchlist-table th, .watchlist-table td {
+.watchlist-table th,
+.watchlist-table td {
   border: 1px solid #ddd;
   padding: 12px;
   text-align: center;
+  vertical-align: middle;
 }
 
 .watchlist-table th {
-  background-color: #f2f2f2;
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #555;
 }
 
-.coin-logo {
-  width: 30px;
-  height: 30px;
+.watchlist-table tr:hover {
+  background-color: #f9f9f9;
 }
 
-.transfer-button {
-  background-color: var(--button-bg);
-  color: var(--button-text);
+/* Coin Info */
+.coin-info {
+  display: flex;
+  align-items: center;
+}
+
+.coin-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+/* Buttons */
+.view-data-button,
+.delete-button {
+  padding: 5px 12px;
   border: none;
-  padding: 8px 12px;
-  cursor: pointer;
   border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
 }
-
-.transfer-button:hover {
-  background-color: #3da9a9;
-}
-
 
 .view-data-button {
-  background-color: #28a745; /* Green */
-  border: none;
+  background-color: #28a745;
   color: white;
-  padding: 5px 10px;
-  margin-right: 5px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .view-data-button:hover {
@@ -109,14 +71,45 @@
 }
 
 .delete-button {
-  background-color: #dc3545; /* Red */
+  background-color: transparent;
+  color: red;
+  font-size: 16px;
   border: none;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
   cursor: pointer;
 }
 
+.delete-button i {
+  margin-right: 5px;
+}
+
 .delete-button:hover {
-  background-color: #c82333;
+  opacity: 0.8;
+}
+
+/* Sparkline */
+.sparklines-line {
+  stroke-width: 2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .watchlist-container {
+    padding: 10px;
+  }
+
+  .watchlist-table th,
+  .watchlist-table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .coin-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .view-data-button,
+  .delete-button {
+    padding: 4px 8px;
+  }
 }

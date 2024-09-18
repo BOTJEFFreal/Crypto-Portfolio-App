@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import HomePage from './pages/HomePage/HomePage';
 import TokenDetail from './components/TokenDetail/TokenDetail';
 import TokenDataPage from './pages/TokenDataPage/TokenDataPage';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import './App.css';
 
 function App() {

@@ -127,7 +127,6 @@ function SearchBar() {
 
   return (
     <div ref={containerRef} style={{ position: "relative", width: "300px" }}>
-      <h1>Search Coins</h1>
       <input
         type="text"
         placeholder="Search for a coin..."

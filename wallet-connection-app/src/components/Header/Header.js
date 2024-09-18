@@ -1,10 +1,28 @@
+
 import React from 'react';
-import './Header.css'; // Create this CSS file as needed
+import './Header.css';
+import WalletConnector from '../WalletConnector/WalletConnector';
+import SearchBar from '../SearchBar/SearchBar'
 
 const Header = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = e.target.search.value.trim();
+    if (query) {
+      // Implement search functionality, e.g., navigate to a search results page
+      console.log('Search Query:', query);
+    }
+  };
+
   return (
     <header className="header">
-      <h1>Crypto Portfolio App</h1>
+      <div className="header-left">
+        <h1 className="app-title">Dashboard</h1>
+      </div>
+        <SearchBar/>
+      {/* <div className="header-right"> */}
+        <WalletConnector />
+      {/* </div> */}
     </header>
   );
 };

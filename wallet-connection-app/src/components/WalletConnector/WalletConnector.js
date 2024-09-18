@@ -1,5 +1,8 @@
+// src/components/WalletConnector/WalletConnector.js
+
 import React, { useState } from 'react';
 import { BrowserProvider, InfuraProvider, formatEther } from 'ethers';
+import './WalletConnector.css'; // Add your styles here
 
 function WalletConnector() {
   const [connectedAddress, setConnectedAddress] = useState('');
@@ -26,19 +29,11 @@ function WalletConnector() {
         const network = await provider.getNetwork();
         setNetwork(network.name);
 
-        // Check if connected to Sepolia
         if (network.chainId !== desiredNetwork.chainId) {
           alert(`Please switch your wallet to the ${desiredNetwork.name} test network.`);
-          await switchToSepolia(); // Switch to Sepolia
-          
-          // Refresh network information after switching
+          await switchToSepolia();
           const updatedNetwork = await provider.getNetwork();
           setNetwork(updatedNetwork.name);
-
-          if (updatedNetwork.chainId !== desiredNetwork.chainId) {
-            alert('Failed to switch to Sepolia network.');
-            return;
-          }
         }
 
         // Fetch and set the balance
@@ -49,6 +44,13 @@ function WalletConnector() {
     } else {
       alert('No Ethereum wallet detected. Please install MetaMask or another wallet extension.');
     }
+  };
+
+  // Function to disconnect the wallet
+  const disconnectWallet = () => {
+    setConnectedAddress('');
+    setBalance('');
+    setNetwork('');
   };
 
   // Function to switch to Sepolia network
@@ -65,9 +67,9 @@ function WalletConnector() {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: '0xaa36a7', // Sepolia Chain ID in Hexadecimal
+                chainId: '0xaa36a7',
                 chainName: 'Sepolia Test Network',
-                rpcUrls: ['https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID'], // Replace with your Infura Project ID
+                rpcUrls: ['https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID'],
                 nativeCurrency: {
                   name: 'Sepolia Ether',
                   symbol: 'ETH',
@@ -86,17 +88,11 @@ function WalletConnector() {
     }
   };
 
-  // Function to fetch balance from the testnet
   const getBalance = async (address) => {
     try {
-      const networkName = desiredNetwork.name; // 'sepolia'
-      const provider = new InfuraProvider(
-        networkName,
-        process.env.REACT_APP_INFURA_PROJECT_ID // Ensure your Infura Project ID is set
-      );
-
+      const provider = new InfuraProvider('sepolia', process.env.REACT_APP_INFURA_PROJECT_ID);
       const balance = await provider.getBalance(address);
-      const balanceInEth = formatEther(balance); // Format balance from Wei to Ether
+      const balanceInEth = formatEther(balance);
       setBalance(balanceInEth);
     } catch (error) {
       console.error('Error fetching balance:', error);
@@ -104,35 +100,22 @@ function WalletConnector() {
     }
   };
 
+  const shortenAddress = (address) => {
+    return address ? `${address.substring(0, 6)}...${address.substring(address.length - 4)}` : '';
+  };
+
   return (
-    <div style={{ marginBottom: '30px' }}>
-      <h2>Connect to Your Wallet</h2>
-      <button
-        onClick={connectWallet}
-        style={{
-          padding: '10px 20px',
-          fontSize: '16px',
-          cursor: 'pointer',
-          backgroundColor: '#4CAF50',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-        }}
-      >
-        Connect Wallet
-      </button>
-      {connectedAddress && (
-        <div style={{ marginTop: '20px' }}>
-          <p>
-            <strong>Connected Address:</strong> {connectedAddress}
-          </p>
-          <p>
-            <strong>Network:</strong> {network.charAt(0).toUpperCase() + network.slice(1)}
-          </p>
-          <p>
-            <strong>Balance:</strong> {balance !== '' ? `${balance} Sepolia ETH` : 'Loading...'}
-          </p>
+    <div className="wallet-connector">
+      {connectedAddress ? (
+        <div className="wallet-connected">
+          <button className="disconnect-button" onClick={disconnectWallet}>
+            <div className="wallet-indicator"></div>
+          </button>
         </div>
+      ) : (
+        <button className="connect-button" onClick={connectWallet}>
+          Connect
+        </button>
       )}
     </div>
   );

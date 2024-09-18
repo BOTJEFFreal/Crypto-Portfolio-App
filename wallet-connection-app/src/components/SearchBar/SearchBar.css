@@ -1,48 +1,57 @@
 .search-input {
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-  
-  .suggestions {
-    border: 1px solid #ccc;
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 0;
-    margin-top: 5px;
-    list-style-type: none;
-    width: 100%;
-    background-color: #fff;
-    position: absolute;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
-  .suggestions li {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    justify-content: space-between;
-  }
-  
-  .suggestions li.active {
-    background-color: #e0e0e0;
-  }
-  
-  .coin-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-  }
-  
-  .favorite-icon {
-    cursor: pointer;
-    margin-left: auto;
-    color: #ff9800;
-    font-size: 20px;
-  }
-  
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.suggestions {
+  border: 1px solid #ccc;
+  max-height: 200px; /* Keep the vertical scroll hidden until necessary */
+  overflow-y: auto; /* Allow vertical scroll only when needed */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  padding: 0;
+  margin-top: 5px;
+  list-style-type: none;
+  width: 100%;
+  background-color: #fff;
+  position: absolute;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  left: 0;  
+  box-sizing: border-box;
+}
+
+.suggestions li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  justify-content: space-between;
+  width: calc(100% - 9px); /* Ensure no horizontal scroll by adjusting the width */
+  margin: 1px 0 0 1px; /* 1px from top and left border */
+}
+
+.suggestions li.active {
+  background-color: #e0e0e0;
+}
+
+.coin-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.favorite-icon {
+  cursor: pointer;
+  margin-left: auto;
+  color: #ff9800;
+  font-size: 20px;
+}
+
+.scrollable {
+  max-width: 100%;
+  overflow-x: hidden; 
+}

@@ -53,3 +53,16 @@
   border-radius: 4px;
   font-size: 12px;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .token-chart {
+    padding: 10px;
+  }
+
+  .chart-toggle button,
+  .timeframe-buttons button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+}
