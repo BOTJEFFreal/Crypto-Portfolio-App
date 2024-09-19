@@ -18,7 +18,7 @@ const TokenDataPage = () => {
   useEffect(() => {
     const fetchTokenData = async () => {
       try {
-        const data = await getTokenData(id); // Use the getTokenData service
+        const data = await getTokenData(id);
         setTokenData(data);
       } catch (err) {
         console.error(err);

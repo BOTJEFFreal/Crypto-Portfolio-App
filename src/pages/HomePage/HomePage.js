@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import './HomePage.css'; 
 import Watchlist from '../../components/WatchList/WatchList'; 
 import SearchBar from '../../components/SearchBar/SearchBar'; 
-import { CoinContext } from '../../context/CoinContext';
+import Header from '../../components/Header/Header';
+import AccountBalance from '../../components/AccountBalance/AccountBalance'; // Ensure correct import path
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('tokens'); 
@@ -13,15 +14,9 @@ const HomePage = () => {
 
   return (
     <div className="homepage-container">
-  
-      <div className="header">
-        <div className="wallet-info">
-          <h2>0x860D...Bbb3a7</h2>
-          <h1>$0.00</h1>
-          <span className="price-change">$0.00 (0.00%)</span>
-        </div>
-      </div>
+      <Header isHomePage={true}/>
 
+      <AccountBalance />
 
       <div className="tab-navigation">
         <button
@@ -44,7 +39,6 @@ const HomePage = () => {
         </button>
       </div>
 
-      {/* Content for Active Tab */}
       <div className="tab-content">
         {activeTab === 'tokens' && (
           <div className="empty-state">

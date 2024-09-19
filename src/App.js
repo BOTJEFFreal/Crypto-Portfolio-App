@@ -13,12 +13,9 @@ function App() {
     <CoinProvider>
       <Router>
         <div className="App">
-          <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            {/* Existing Routes */}
             <Route path="/token/:id" element={<TokenDetail />} />
-            {/* Updated Route for TokenDataPage using id */}
             <Route path="/token-data/:id" element={<TokenDataPage />} />
           </Routes>
         </div>

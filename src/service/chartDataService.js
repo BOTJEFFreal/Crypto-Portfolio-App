@@ -39,7 +39,8 @@ export const getCandleChartData = async (id, days, cache) => {
   return formattedCandleData;
 };
 
-// Custom Range
+//custom Range
+
 export const getCustomChartData = async (id, fromDate, toDate, cache) => {
   const from = Math.floor(fromDate.getTime() / 1000);
   const to = Math.floor(toDate.getTime() / 1000);

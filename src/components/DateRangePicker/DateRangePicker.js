@@ -1,5 +1,3 @@
-// src/components/DateRangePicker/DateRangePicker.js
-
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
@@ -7,11 +5,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateRangePicker.css';
 
-// Set the root element for accessibility
 Modal.setAppElement('#root');
 
 const DateRangePicker = ({ isOpen, onRequestClose, onSubmit }) => {
-  const [dateRange, setDateRange] = useState([null, null]); // [startDate, endDate]
+  const [dateRange, setDateRange] = useState([null, null]); 
   const [startDate, endDate] = dateRange;
 
   const handleChange = (update) => {

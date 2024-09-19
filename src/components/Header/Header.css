@@ -4,14 +4,16 @@
   justify-content: space-between;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 10; /* Ensure this is high enough to stay above other content */
   color: #1a1a1a; 
   padding: 10px 20px;
+  background-color: white; /* Add background to avoid transparency */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
 }
 
 .app-title {
   font-size: 24px;
-  color: #1a1a1a; 
+  color: #1a1a1a;
   margin: 0;
 }
 

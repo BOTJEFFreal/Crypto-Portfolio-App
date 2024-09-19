@@ -1,87 +1,124 @@
-// src/config/lineChartOptions.js
 
-import zoomPlugin from 'chartjs-plugin-zoom';
-import { Chart } from 'chart.js';
+const getLineChartOptions = (isProfit, lineData, timeframe) => {
+  if (!lineData || lineData.length === 0) {
+    return {};
+  }
 
-// Register the zoom plugin globally
-Chart.register(zoomPlugin);
+  const prices = lineData.map(item => item.price);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
 
-const getLineChartOptions = (isProfit) => ({
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false, // Hide the legend if not needed
-    },
-    tooltip: {
-      mode: 'index',
-      intersect: false,
-      callbacks: {
-        label: function (context) {
-          return `Price: $${context.parsed.y}`;
-        },
-      },
-    },
-    zoom: {
-      pan: {
-        enabled: true,
-        mode: 'x',
-        modifierKey: 'ctrl', // Require Ctrl key to pan
+  
+  const yAxisMin = minPrice < 0 ? minPrice * 1.1 : minPrice * 0.9;
+  const yAxisMax = maxPrice * 1.1;
+
+  let tickAmount = 12;
+  let labelFormatter = (val) => val;
+  let labelStep = 1;
+
+  if (timeframe === '1') { 
+    tickAmount = 12;
+    labelFormatter = (val) => {
+      const date = new Date(val);
+      return `${date.getHours()}:00`;
+    };
+    labelStep = 2; 
+  } else if (timeframe === '7') { 
+    tickAmount = 7;
+    labelFormatter = (val) => {
+      const date = new Date(val);
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    };
+    labelStep = 1; 
+  }
+
+  const yLabelFormatter = (value) => {
+    if (value >= 1000000) {
+      return `$${(value / 1000000).toFixed(1)}M`; 
+    } else if (value >= 1000) {
+      return `$${(value / 1000).toFixed(1)}K`; 
+    } else {
+      return `$${value.toFixed(2)}`; }
+  };
+
+  return {
+    chart: {
+      id: 'line-chart',
+      type: 'line',
+      toolbar: {
+        show: false,
       },
       zoom: {
         enabled: true,
-        drag: false,
-        mode: 'x',
-        speed: 0.1,
-        // Optional: Limits to zoom level
-        limits: {
-          x: { min: 'original', max: 'original' },
-          y: { min: 'original', max: 'original' },
+      },
+      animations: {
+        enabled: false,
+      },
+    },
+    stroke: {
+      curve: 'smooth', 
+      width: 2,
+      colors: [isProfit ? '#4CAF50' : '#FF0000'],
+    },
+    xaxis: {
+      type: 'datetime',
+      categories: lineData.map((item) => item.date),
+      labels: {
+        rotate: -45,
+        style: {
+          fontSize: '12px',
+        },
+        formatter: labelFormatter,
+        step: labelStep,
+      },
+      tickAmount: tickAmount,
+      tickPlacement: 'on',
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      min: yAxisMin,
+      max: yAxisMax,
+      labels: {
+        formatter: yLabelFormatter,
+        style: {
+          fontSize: '12px',
         },
       },
     },
-  },
-  scales: {
-    x: {
-      type: 'category',
-      labels: [], // To be set dynamically in ChartRenderer
-      ticks: {
-        maxTicksLimit: 12, // Limit the number of x-axis labels to 12
-        autoSkip: true,
-        maxRotation: 90, // Rotate labels by 90 degrees
-        minRotation: 90,
-        padding: 10, // Optional: Adds padding for better spacing
+    grid: {
+      show: true,
+      borderColor: '#e0e0e0',
+      strokeDashArray: 5,
+      xaxis: {
+        lines: {
+          show: false,
+        },
       },
-      grid: {
-        display: false, // Optional: Hide x-axis grid lines
-      },
-    },
-    y: {
-      beginAtZero: false, // Adjust based on your data
-      grid: {
-        color: '#f0f0f0', // Light gray grid lines
-      },
-      ticks: {
-        callback: function (value) {
-          return `$${value}`;
+      yaxis: {
+        lines: {
+          show: true,
         },
       },
     },
-  },
-  elements: {
-    line: {
-      borderColor: isProfit ? 'green' : 'red', // Dynamic line color
-      borderWidth: 2,
-      tension: 0.4, // Smoothness of the line
-      fill: false, // No fill under the line
+    tooltip: {
+      y: {
+        formatter: (value) => `$${value.toLocaleString()}`, 
+      },
+      x: {
+        formatter: (val) => {
+          const date = new Date(val);
+          return timeframe === '1' 
+            ? `${date.getHours()}:00` 
+            : `${date.getMonth() + 1}/${date.getDate()}`;
+        },
+      },
     },
-    point: {
-      radius: 0, // Hide data points
-    },
-  },
-  interaction: {
-    intersect: false,
-    mode: 'index',
-  },
-});
+  };
+};
 
 export default getLineChartOptions;

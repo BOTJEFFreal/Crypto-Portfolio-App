@@ -1,4 +1,27 @@
-const getCandleChartOptions = () => {
+const getCandleChartOptions = (timeframe) => {
+  let tickAmount = 12;
+  let labelFormatter = (val) => {
+    const date = new Date(val);
+    return `${date.getMonth() + 1}/${date.getDate()}`;
+  };
+  let labelStep = 1; 
+
+  if (timeframe === '1') {
+    tickAmount = 12;
+    labelFormatter = (val) => {
+      const date = new Date(val);
+      return `${date.getHours()}:00`;
+    };
+    labelStep = 2;
+  } else if (timeframe === '7') {
+    tickAmount = 7;
+    labelFormatter = (val) => {
+      const date = new Date(val);
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    };
+    labelStep = 1; 
+  }
+
   return {
     chart: {
       id: 'candlestick-chart',
@@ -17,18 +40,16 @@ const getCandleChartOptions = () => {
     },
     xaxis: {
       type: 'datetime',
-      categories: [],
+      categories: [], 
       labels: {
         rotate: -45,
         style: {
           fontSize: '12px',
         },
-        formatter: function (val) {
-          const date = new Date(val);
-          return `${date.getMonth() + 1}/${date.getDate()}`;
-        },
+        formatter: labelFormatter,
+        step: labelStep, 
       },
-      tickAmount: 12,
+      tickAmount: tickAmount,
       tickPlacement: 'on',
       axisBorder: {
         show: false,
@@ -84,11 +105,11 @@ const getCandleChartOptions = () => {
     plotOptions: {
       candlestick: {
         colors: {
-          upward: '#4CAF50', 
-          downward: '#FF0000', 
+          upward: '#4CAF50',
+          downward: '#FF0000',
         },
         wick: {
-          useFillColor: true, 
+          useFillColor: true,
         },
       },
     },

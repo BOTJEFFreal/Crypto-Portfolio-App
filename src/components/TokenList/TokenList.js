@@ -1,4 +1,3 @@
-// src/components/TokenList/TokenList.js
 import React, { useContext, useEffect, useState } from 'react';
 import { CoinContext } from '../../context/CoinContext';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
@@ -49,7 +48,6 @@ const TokenList = () => {
         setSelectedTimeframes((prev) => ({ ...prev, [token.id]: '7d' }));
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens]);
 
   const handleTimeframeChange = (tokenId, timeframe) => {
@@ -81,23 +79,13 @@ const TokenList = () => {
     localStorage.setItem('favorites', JSON.stringify(updatedTokens));
   };
 
-  const getChangeColor = (value) => {
-    if (value > 0) return 'green';
-    if (value < 0) return 'red';
-    return 'black';
-  };
-
   return (
     <div className="token-list-container">
       <h2>Your Tokens</h2>
       {tokens.length > 0 ? (
         <div className="token-list">
           {tokens.map((token) => {
-            const change1h = token.price_change_percentage_1h_in_currency;
-            const change24h = token.price_change_percentage_24h_in_currency;
-            const change7d = token.price_change_percentage_7d_in_currency;
-
-            return (
+                return (
               <div key={token.id} className="token-card">
                 <div className="token-header">
                   <img src={token.image} alt={token.name} className="token-icon" />

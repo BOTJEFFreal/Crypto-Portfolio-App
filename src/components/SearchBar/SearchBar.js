@@ -18,7 +18,6 @@ function SearchBar() {
   const suggestionsRef = useRef(null);
   const containerRef = useRef(null);
 
-  // Fetch coin list from API or localStorage
   useEffect(() => {
     if (coins.length === 0) {
       console.log("Fetching coin list from API...");
@@ -26,7 +25,6 @@ function SearchBar() {
     }
   }, [coins]);
 
-  // Add event listener to detect clicks outside the component
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -45,12 +43,10 @@ function SearchBar() {
     };
   }, []);
 
-  // Handle search input change
   const handleInputChange = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
 
-    // Filter coins based on the search query
     if (query.length > 0) {
       const filtered = coins.filter(
         (coin) =>
@@ -66,7 +62,6 @@ function SearchBar() {
     }
   };
 
-  // Handle keyboard navigation
   const handleKeyDown = (event) => {
     if (event.key === "ArrowDown") {
       setActiveSuggestionIndex((prevIndex) =>
@@ -83,26 +78,21 @@ function SearchBar() {
     }
   };
 
-  // Handle suggestion click
   const handleSuggestionClick = (suggestion) => {
     setSearchQuery(suggestion.name);
     setShowSuggestions(false);
     setActiveSuggestionIndex(0);
   };
 
-  // Get tokens array safely
   const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
 
-  // Handle adding/removing a coin to/from favorites
   const handleFavoriteClick = (coin, event) => {
     event.stopPropagation();
     let updatedTokens;
   
     if (tokens.some((favCoin) => favCoin.id === coin.id)) {
-      // Remove from favorites
       updatedTokens = tokens.filter((favCoin) => favCoin.id !== coin.id);
     } else {
-      // Add to favorites
       updatedTokens = [...tokens, coin];
     }
   
@@ -110,14 +100,12 @@ function SearchBar() {
     localStorage.setItem('favorites', JSON.stringify(updatedTokens));
   };
 
-  // Infinite scroll handler
   const handleScroll = () => {
     if (
       suggestionsRef.current &&
       suggestionsRef.current.scrollTop + suggestionsRef.current.clientHeight >=
         suggestionsRef.current.scrollHeight
     ) {
-      // Load more items when scrolled to bottom
       setItemsToShow((prev) => Math.min(prev + 5, filteredCoins.length));
     }
   };

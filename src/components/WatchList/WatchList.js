@@ -11,7 +11,7 @@ const Watchlist = () => {
   const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
 
   const handleDelete = (coinId, event) => {
-    event.stopPropagation(); // Prevent row click when deleting
+    event.stopPropagation(); 
     const updatedTokens = tokens.filter((coin) => coin.id !== coinId);
     setCoinsList({ tokens: updatedTokens });
     localStorage.setItem('favorites', JSON.stringify(updatedTokens));
@@ -23,14 +23,13 @@ const Watchlist = () => {
     return 'black';
   };
 
-  // Determine the color of the sparkline based on price trend
   const getSparklineColor = (coin) => {
     if (coin.sparkline_in_7d && coin.sparkline_in_7d.price.length > 1) {
       const firstPrice = coin.sparkline_in_7d.price[0];
       const lastPrice = coin.sparkline_in_7d.price[coin.sparkline_in_7d.price.length - 1];
-      return lastPrice > firstPrice ? 'green' : 'red'; // Green for upward trend, red for downward
+      return lastPrice > firstPrice ? 'green' : 'red'; 
     }
-    return 'blue'; // Default color if data is not available
+    return 'blue'; 
   };
 
   const handleViewData = (id) => {
@@ -93,7 +92,7 @@ const Watchlist = () => {
                     )}
                   </td>
                   <td>
-                    {/* Delete button with dustbin icon */}
+                  
                     <button
                       onClick={(event) => handleDelete(coin.id, event)}
                       className="delete-button"

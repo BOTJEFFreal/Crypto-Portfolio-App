@@ -1,38 +1,3 @@
-/* .token-list {
-  padding: 20px;
-}
-
-.token-list h2 {
-  margin-bottom: 20px;
-}
-
-.token-list table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.token-list th,
-.token-list td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.token-name {
-  cursor: pointer;
-  color: #007bff;
-  text-decoration: underline;
-}
-
-.token-name:hover {
-  color: #0056b3;
-}
-
-.token-list tbody tr:hover {
-  background-color: #f9f9f9;
-} */
-
-/* src/components/TokenList/TokenList.css */
 .token-list-container {
   padding: 20px;
 }
