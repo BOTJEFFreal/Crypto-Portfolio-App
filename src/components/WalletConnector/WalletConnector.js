@@ -15,13 +15,13 @@ const WalletConnector = () => {
 
   return (
     <div>
-      {!connectedAddress ? (
+       {!connectedAddress ? (
         <button onClick={connectWallet} className="connect-button">
-          Connect Wallet
+          <div className="hover-message">Connect your wallet</div>
         </button>
       ) : (
         <button onClick={disconnectWallet} className="disconnect-button">
-          Disconnect Wallet
+          <div className="hover-message">Disconnect your wallet</div>
         </button>
       )}
 

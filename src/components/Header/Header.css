@@ -4,16 +4,15 @@
   justify-content: space-between;
   position: sticky;
   top: 0;
-  z-index: 10; /* Ensure this is high enough to stay above other content */
-  color: #1a1a1a; 
-  padding: 10px 20px;
-  background-color: white; /* Add background to avoid transparency */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
+  z-index: 10;
+  color: #ffffff;
+  border-bottom: 1px solid #333;
+  padding: 40px 0px; 
 }
 
 .app-title {
-  font-size: 24px;
-  color: #1a1a1a;
+  font-size: 42px;
+  color: #ffffff;
   margin: 0;
 }
 
@@ -31,4 +30,36 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 350px; 
+  padding: 12px; 
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #333;
+  color: #ffffff;
+}
+
+.search-bar::placeholder {
+  color: #ccc;
+}
+
+.wallet-connector {
+  color: #ffffff;
+}
+
+.wallet-connector button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px; 
+  font-size: 16px; 
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.wallet-connector button:hover {
+  background-color: #45a049;
 }

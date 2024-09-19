@@ -1,9 +1,12 @@
+// src/pages/HomePage/HomePage.jsx
+
 import React, { useState } from 'react';
 import './HomePage.css'; 
 import Watchlist from '../../components/WatchList/WatchList'; 
 import SearchBar from '../../components/SearchBar/SearchBar'; 
 import Header from '../../components/Header/Header';
 import AccountBalance from '../../components/AccountBalance/AccountBalance'; // Ensure correct import path
+import WalletTokens from '../../components/WalletTokens/WalletTokens'; // Import WalletTokens
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('tokens'); 
@@ -41,10 +44,7 @@ const HomePage = () => {
 
       <div className="tab-content">
         {activeTab === 'tokens' && (
-          <div className="empty-state">
-            <p>No Tokens to Show</p>
-            <button className="buy-tokens-button">Buy tokens</button>
-          </div>
+          <WalletTokens />
         )}
 
         {activeTab === 'watchlist' && (

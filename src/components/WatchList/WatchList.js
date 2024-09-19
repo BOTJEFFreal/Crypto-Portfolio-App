@@ -1,44 +1,53 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Sparklines, SparklinesLine } from 'react-sparklines';
-import './WatchList.css';
-import { CoinContext } from '../../context/CoinContext';
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Sparklines, SparklinesLine } from "react-sparklines";
+import "./WatchList.css";
+import { CoinContext } from "../../context/CoinContext";
 
 const Watchlist = () => {
   const { coinsList, setCoinsList } = useContext(CoinContext);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
 
   const handleDelete = (coinId, event) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
     const updatedTokens = tokens.filter((coin) => coin.id !== coinId);
     setCoinsList({ tokens: updatedTokens });
-    localStorage.setItem('favorites', JSON.stringify(updatedTokens));
+    localStorage.setItem("favorites", JSON.stringify(updatedTokens));
   };
 
   const getChangeColor = (value) => {
-    if (value > 0) return 'green';
-    if (value < 0) return 'red';
-    return 'black';
+    if (value > 0) return "#2E8B57";
+    if (value < 0) return "#BF4024";
+    return "black";
   };
 
   const getSparklineColor = (coin) => {
     if (coin.sparkline_in_7d && coin.sparkline_in_7d.price.length > 1) {
       const firstPrice = coin.sparkline_in_7d.price[0];
-      const lastPrice = coin.sparkline_in_7d.price[coin.sparkline_in_7d.price.length - 1];
-      return lastPrice > firstPrice ? 'green' : 'red'; 
+      const lastPrice =
+        coin.sparkline_in_7d.price[coin.sparkline_in_7d.price.length - 1];
+      return lastPrice > firstPrice ? "green" : "red";
     }
-    return 'blue'; 
+    return "blue";
   };
 
   const handleViewData = (id) => {
     navigate(`/token-data/${id}`);
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="watchlist-container">
-      <h2>Your Watchlist</h2>
       {tokens.length > 0 ? (
         <table className="watchlist-table">
           <thead>
@@ -49,9 +58,8 @@ const Watchlist = () => {
               <th>24h</th>
               <th>7d</th>
               <th>24h Volume</th>
-              <th>Market Cap</th>
               <th>Last 7 Days</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -61,38 +69,53 @@ const Watchlist = () => {
               const change7d = coin.price_change_percentage_7d_in_currency;
 
               return (
-                <tr key={coin.id} onClick={() => handleViewData(coin.id)} style={{ cursor: 'pointer' }}>
+                <tr key={coin.id} onClick={() => handleViewData(coin.id)}>
                   <td>
                     <div className="coin-info">
-                      <img src={coin.image} alt={coin.name} className="coin-icon" />
-                      <span>
-                        {coin.name} ({coin.symbol.toUpperCase()})
-                      </span>
+                      <img
+                        src={coin.image}
+                        alt={coin.name}
+                        className="coin-icon"
+                      />
+                      <div className="coin-section">
+                        <span className="coin-name">{coin.name}</span>
+                        <span className="coin-symbol">
+                          ({coin.symbol.toUpperCase()})
+                        </span>
+                      </div>
                     </div>
                   </td>
-                  <td>${coin.current_price?.toLocaleString() || 'N/A'}</td>
+                  <td>${coin.current_price?.toLocaleString() || "N/A"}</td>
                   <td style={{ color: getChangeColor(change1h) }}>
-                    {change1h !== undefined ? `${change1h.toFixed(2)}%` : 'N/A'}
+                    {change1h !== undefined
+                      ? `${change1h.toFixed(2)}%`
+                      : "N/A"}
                   </td>
                   <td style={{ color: getChangeColor(change24h) }}>
-                    {change24h !== undefined ? `${change24h.toFixed(2)}%` : 'N/A'}
+                    {change24h !== undefined
+                      ? `${change24h.toFixed(2)}%`
+                      : "N/A"}
                   </td>
                   <td style={{ color: getChangeColor(change7d) }}>
-                    {change7d !== undefined ? `${change7d.toFixed(2)}%` : 'N/A'}
+                    {change7d !== undefined
+                      ? `${change7d.toFixed(2)}%`
+                      : "N/A"}
                   </td>
-                  <td>${coin.total_volume?.toLocaleString() || 'N/A'}</td>
-                  <td>${coin.market_cap?.toLocaleString() || 'N/A'}</td>
+                  <td>${coin.total_volume?.toLocaleString() || "N/A"}</td>
                   <td>
                     {coin.sparkline_in_7d ? (
-                      <Sparklines data={coin.sparkline_in_7d.price} width={100} height={30}>
+                      <Sparklines
+                        data={coin.sparkline_in_7d.price}
+                        width={100}
+                        height={30}
+                      >
                         <SparklinesLine color={getSparklineColor(coin)} />
                       </Sparklines>
                     ) : (
-                      'N/A'
+                      "N/A"
                     )}
                   </td>
                   <td>
-                  
                     <button
                       onClick={(event) => handleDelete(coin.id, event)}
                       className="delete-button"
@@ -106,7 +129,24 @@ const Watchlist = () => {
           </tbody>
         </table>
       ) : (
-        <p>No coins in your watchlist.</p>
+        <div className="empty-watchlist-container">
+          <p>No coins in your watchlist.</p>
+          <button className="open-modal-button" onClick={openModal}>
+            Add Coins
+          </button>
+        </div>
+      )}
+
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Add Coins to Watchlist</h2>
+            <p>Search and add your favorite coins to the watchlist.</p>
+            <button className="close-modal-button" onClick={closeModal}>
+              Close
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

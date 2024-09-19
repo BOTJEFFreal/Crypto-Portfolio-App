@@ -78,26 +78,20 @@ function SearchBar() {
     }
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setSearchQuery(suggestion.name);
-    setShowSuggestions(false);
-    setActiveSuggestionIndex(0);
-  };
-
-  const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
+   const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
 
   const handleFavoriteClick = (coin, event) => {
     event.stopPropagation();
     let updatedTokens;
-  
+
     if (tokens.some((favCoin) => favCoin.id === coin.id)) {
       updatedTokens = tokens.filter((favCoin) => favCoin.id !== coin.id);
     } else {
       updatedTokens = [...tokens, coin];
     }
-  
+
     setCoinsList({ tokens: updatedTokens });
-    localStorage.setItem('favorites', JSON.stringify(updatedTokens));
+    localStorage.setItem("favorites", JSON.stringify(updatedTokens));
   };
 
   const handleScroll = () => {
@@ -110,11 +104,8 @@ function SearchBar() {
     }
   };
 
-  console.log('coinsList:', coinsList);
-  console.log('tokens:', tokens);
-
   return (
-    <div ref={containerRef} style={{ position: "relative", width: "300px" }}>
+    <div ref={containerRef} className="search-bar-container">
       <input
         type="text"
         placeholder="Search for a coin..."
@@ -133,28 +124,19 @@ function SearchBar() {
             {filteredCoins.slice(0, itemsToShow).map((coin, index) => (
               <li
                 key={coin.id}
-                onClick={() => handleSuggestionClick(coin)}
                 className={index === activeSuggestionIndex ? "active" : ""}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "5px",
-                  cursor: "pointer",
-                }}
               >
                 <img
                   src={coin.image}
                   alt={coin.name}
                   className="coin-icon"
-                  style={{ width: "24px", height: "24px", marginRight: "10px" }}
                 />
-                <span style={{ flexGrow: 1 }}>
+                <span className="coin-name">
                   {coin.name} ({coin.symbol.toUpperCase()})
                 </span>
                 <span
                   className="favorite-icon"
                   onClick={(event) => handleFavoriteClick(coin, event)}
-                  style={{ cursor: "pointer" }}
                 >
                   {tokens.some((favCoin) => favCoin.id === coin.id)
                     ? "★"

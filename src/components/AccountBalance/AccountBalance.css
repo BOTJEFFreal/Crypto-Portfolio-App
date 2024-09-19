@@ -1,32 +1,111 @@
-/* src/styles/AccountBalance.css */
-
-.account-balance {
-  background-color: #fff;
-  padding: 20px;
+.account-balance-container {
+  display: flex;
+  flex-direction: column;
+  /* background-color: #1a1a1a; */
+  padding: 50px 0px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
+  max-width: 350px;
 }
 
-.balance-details p {
-  margin: 10px 0;
-  color: #333;
+.address-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 1.2em;
 }
 
-.tokens-container {
-  margin-top: 10px;
+.address {
+  color: #FFFFFF;
+  font-weight: bold;
 }
 
-.token-list {
-  list-style-type: none;
-  padding-left: 0;
+.copy-button {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-.token-item {
-  padding: 5px 0;
-  border-bottom: 1px solid #ddd;
+.copy-button i {
+  color: #FFFFFF;
+  font-size: 16px;
 }
 
-.token-item:last-child {
-  border-bottom: none;
+.tooltip {
+  visibility: hidden;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 12px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.copy-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.balance-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 3em;
+}
+
+.balance-amount {
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.integer-part {
+  color: #FFFFFF;
+}
+
+.decimal-part {
+  color: #BBC0C5;
+}
+
+.visibility-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #FFFFFF;
+}
+
+.visibility-button i {
+  font-size: 24px;
+}
+
+.balance-change {
+  color: #FF0000;
+  font-size: 1em;
+  margin-top: 5px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.balance-change-amount,
+.balance-change-percentage {
+  margin-right: 5px;
+  color: #BBC0C5;
 }

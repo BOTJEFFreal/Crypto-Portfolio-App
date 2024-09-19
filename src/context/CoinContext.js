@@ -1,3 +1,5 @@
+// src/context/CoinContext.jsx
+
 import React, { createContext, useState, useEffect, useRef } from 'react';
 import { ethers } from 'ethers';
 
@@ -5,11 +7,12 @@ import { supportedNetworks } from '../config/supportedNetworks';
 
 export const CoinContext = createContext();
 
-
 const ERC20_ABI = [
   'function balanceOf(address owner) view returns (uint256)',
   'function symbol() view returns (string)',
   'function decimals() view returns (uint8)',
+  'function name() view returns (string)',
+  // Add more ERC20 functions if needed
 ];
 
 export const CoinProvider = ({ children }) => {
@@ -38,15 +41,33 @@ export const CoinProvider = ({ children }) => {
     };
   }, []);
 
+  // State Variables
   const [connectedAddress, setConnectedAddress] = useState('');
   const [network, setNetwork] = useState('');
   const [chainId, setChainId] = useState(null);
   const [ethBalance, setEthBalance] = useState('');
+  const [ethPrice, setEthPrice] = useState(0); // ETH price in USD
   const [tokens, setTokens] = useState([]);
   const [loadingTokens, setLoadingTokens] = useState(false);
   const [error, setError] = useState('');
 
   const providerRef = useRef(null);
+
+  // Handle network and account changes
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', handleChainChanged);
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+    }
+
+    return () => {
+      if (window.ethereum && window.ethereum.removeListener) {
+        window.ethereum.removeListener('chainChanged', handleChainChanged);
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+      }
+    };
+  }, [connectedAddress, chainId]);
+
   const handleChainChanged = async (_chainIdHex) => {
     console.log('Chain changed to:', _chainIdHex);
     const decimalChainId = parseInt(_chainIdHex, 16); 
@@ -57,6 +78,7 @@ export const CoinProvider = ({ children }) => {
       setNetwork(currentNetwork.name);
       if (providerRef.current && connectedAddress) {
         await fetchEthBalance(providerRef.current, connectedAddress);
+        await fetchEthPrice();
         await fetchTokenBalances(providerRef.current, connectedAddress, decimalChainId);
       }
     } else {
@@ -75,6 +97,7 @@ export const CoinProvider = ({ children }) => {
 
       if (providerRef.current) {
         await fetchEthBalance(providerRef.current, accounts[0]);
+        await fetchEthPrice();
         await fetchTokenBalances(providerRef.current, accounts[0], chainId);
       }
     }
@@ -97,10 +120,10 @@ export const CoinProvider = ({ children }) => {
         console.log('Connected Network:', networkData.name, 'Chain ID:', networkData.chainId);
 
         await fetchEthBalance(provider, address);
+        await fetchEthPrice();
         await fetchTokenBalances(provider, address, networkData.chainId);
 
-        window.ethereum.on('chainChanged', handleChainChanged);
-        window.ethereum.on('accountsChanged', handleAccountsChanged);
+        setError('');
       } catch (err) {
         console.error('Error connecting to wallet:', err);
         setError('Failed to connect wallet. Please try again.');
@@ -115,6 +138,7 @@ export const CoinProvider = ({ children }) => {
     setNetwork('');
     setChainId(null);
     setEthBalance('');
+    setEthPrice(0);
     setTokens([]);
     setError('');
   };
@@ -134,6 +158,7 @@ export const CoinProvider = ({ children }) => {
       const address = connectedAddress || (await provider.getSigner().getAddress());
 
       await fetchEthBalance(provider, address);
+      await fetchEthPrice();
       await fetchTokenBalances(provider, address, 1);
     } catch (switchError) {
       console.error('Failed to switch to Mainnet:', switchError);
@@ -141,7 +166,6 @@ export const CoinProvider = ({ children }) => {
     }
   };
 
-  
   const switchToSepolia = async () => {
     try {
       await window.ethereum.request({
@@ -159,6 +183,7 @@ export const CoinProvider = ({ children }) => {
 
       // Fetch updated balances
       await fetchEthBalance(provider, address);
+      await fetchEthPrice();
       await fetchTokenBalances(provider, address, 11155111);
     } catch (switchError) {
       if (switchError.code === 4902) { 
@@ -188,6 +213,7 @@ export const CoinProvider = ({ children }) => {
           const address = connectedAddress || (await provider.getSigner().getAddress());
 
           await fetchEthBalance(provider, address);
+          await fetchEthPrice();
           await fetchTokenBalances(provider, address, 11155111);
         } catch (addError) {
           console.error('Failed to add Sepolia network:', addError);
@@ -200,7 +226,7 @@ export const CoinProvider = ({ children }) => {
     }
   };
 
-  // get ETH balance
+  // Fetch ETH/Testnet ETH balance
   const fetchEthBalance = async (provider, address) => {
     try {
       const balance = await provider.getBalance(address);
@@ -213,6 +239,27 @@ export const CoinProvider = ({ children }) => {
     }
   };
 
+  // Fetch ETH's current price in USD from CoinGecko
+  const fetchEthPrice = async () => {
+    try {
+      const response = await fetch(
+        'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
+      );
+      const data = await response.json();
+      if (data.ethereum && data.ethereum.usd) {
+        setEthPrice(data.ethereum.usd);
+        console.log('ETH Price:', data.ethereum.usd);
+      } else {
+        setEthPrice(0);
+        console.error('Invalid ETH price data:', data);
+      }
+    } catch (error) {
+      console.error('Error fetching ETH price:', error);
+      setEthPrice(0);
+    }
+  };
+
+  // Fetch ERC20 token balances and their price data
   const fetchTokenBalances = async (provider, address, currentChainId) => {
     setLoadingTokens(true);
     setError('');
@@ -233,10 +280,18 @@ export const CoinProvider = ({ children }) => {
           const balanceRaw = await contract.balanceOf(address);
           const formattedBalance = ethers.formatUnits(balanceRaw, token.decimals);
 
+          // Fetch token price and sparkline data from CoinGecko
+          const priceData = await fetchTokenPriceData(token.id);
           if (Number(formattedBalance) > 0) {
             tokenBalances.push({
+              id: token.id,
+              name: token.name,
               symbol: token.symbol,
-              balance: Number(formattedBalance).toFixed(4),
+              image: token.image,
+              quantity: Number(formattedBalance),
+              current_price: priceData.current_price,
+              price_change_percentage_24h_in_currency: priceData.price_change_percentage_24h,
+              sparkline_in_7d: priceData.sparkline_in_7d,
             });
           }
         } catch (tokenError) {
@@ -254,15 +309,30 @@ export const CoinProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    return () => {
-      if (window.ethereum && window.ethereum.removeListener) {
-        window.ethereum.removeListener('chainChanged', handleChainChanged);
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
-      }
-    };
-   
-  }, []);
+  // Fetch token price data from CoinGecko
+  const fetchTokenPriceData = async (tokenId) => {
+    try {
+      const response = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${tokenId}/market_chart?vs_currency=usd&days=7`
+      );
+      const data = await response.json();
+      return {
+        current_price: data.prices[data.prices.length - 1][1],
+        price_change_percentage_24h_in_currency:
+          ((data.prices[data.prices.length - 1][1] - data.prices[data.prices.length - 2][1]) /
+            data.prices[data.prices.length - 2][1]) *
+          100,
+        sparkline_in_7d: { price: data.prices.map((p) => p[1]) },
+      };
+    } catch (error) {
+      console.error(`Error fetching price data for ${tokenId}:`, error);
+      return {
+        current_price: 0,
+        price_change_percentage_24h_in_currency: 0,
+        sparkline_in_7d: { price: [] },
+      };
+    }
+  };
 
   return (
     <CoinContext.Provider
@@ -277,6 +347,8 @@ export const CoinProvider = ({ children }) => {
         setChainId,
         ethBalance,
         setEthBalance,
+        ethPrice,
+        setEthPrice,
         tokens,
         setTokens,
         loadingTokens,

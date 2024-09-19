@@ -1,32 +1,49 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './AccountBalance.css';
 import { CoinContext } from '../../context/CoinContext';
 
 const AccountBalance = () => {
-  const { connectedAddress, network, ethBalance, tokens } = useContext(CoinContext);
+  const { connectedAddress, ethBalance } = useContext(CoinContext);
+  const [isVisible, setIsVisible] = useState(true); 
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const truncatedAddress = connectedAddress
+    ? `${connectedAddress.substring(0, 6)}...${connectedAddress.substring(connectedAddress.length - 4)}`
+    : 'NA';
+
+  const [integerPart, decimalPart] = isVisible
+    ? (ethBalance ? parseFloat(ethBalance).toFixed(2).split('.') : ['0', '00'])
+    : ['******', ''];
 
   return (
-    <div className="account-balance">
-      <h3>Account Balance</h3>
-      <div className="balance-details">
-        <p><strong>Connected Address:</strong> {connectedAddress || 'NA'}</p>
-        <p><strong>Network:</strong> {network || 'NA'}</p>
-        <p><strong>ETH Balance:</strong> {ethBalance ? `${ethBalance} ETH` : 'NA'}</p>
-        <div className="tokens-container">
-          <strong>ERC-20 Tokens:</strong>
-          {tokens.length > 0 ? (
-            <ul className="token-list">
-              {tokens.map((token, index) => (
-                <li key={index} className="token-item">
-                  {token.symbol}: {token.balance}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No ERC-20 tokens found.</p>
-          )}
-        </div>
+    <div className="account-balance-container">
+      <div className="address-container">
+        <span className="address">
+          {truncatedAddress}
+        </span>
+        <button className="copy-button" onClick={() => navigator.clipboard.writeText(connectedAddress)}>
+          <i className="fa-solid fa-copy"></i>
+          <div className="tooltip">Copy to Clipboard</div>
+        </button>
       </div>
+
+      <div className="balance-container">
+        <span className="balance-amount">
+          <span className="integer-part">${integerPart}</span>
+          {decimalPart && <span className="decimal-part">.{decimalPart}</span>}
+        </span>
+        <button className="visibility-button" onClick={toggleVisibility}>
+          <i className={`fa-solid ${isVisible ? 'fa-eye' : 'fa-eye-slash'}`}></i>
+        </button>
+      </div>
+
+      {/* <div className="balance-change">
+        <span className="balance-change-amount">$0.00</span>
+        <span className="balance-change-percentage">(0.00%)</span>
+      </div> */}
     </div>
   );
 };
