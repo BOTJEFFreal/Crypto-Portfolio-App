@@ -89,3 +89,20 @@
   padding: 10px 20px;
   cursor: pointer;
 }
+
+.token-selector {
+  margin: 20px 0;
+}
+
+.add-token-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-token-button:hover {
+  background-color: #45a049;
+}
