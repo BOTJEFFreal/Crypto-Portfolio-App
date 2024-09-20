@@ -14,7 +14,7 @@ const ChartControlsCustom = ({
   currentPrice, 
   priceChange 
 }) => {
-  const [showDateRangePicker, setShowDateRangePicker] = useState(false); // New state to show/hide DateRangePicker
+  const [showDateRangePicker, setShowDateRangePicker] = useState(false); // Toggle DateRangePicker modal
 
   const timeframes = [
     { label: '1D', value: '1' },
@@ -26,12 +26,16 @@ const ChartControlsCustom = ({
   const priceChangeColor = priceChange >= 0 ? 'green' : 'red';
 
   const handleCustomRangeClick = () => {
-    setShowDateRangePicker(!showDateRangePicker); // Toggle the DateRangePicker visibility
-    onCustomRangeClick(); // Call the custom range click handler
+    setShowDateRangePicker(true); // Show the DateRangePicker modal
   };
 
   const handleDateRangeSelected = (startDate, endDate) => {
-    // You can pass the selected date range to parent component or handle it here
+    // Pass the selected date range to the parent component using the callback
+    if (onCustomRangeClick && typeof onCustomRangeClick === 'function') {
+      onCustomRangeClick(startDate, endDate); // Call the parent function with dates
+    } else {
+      console.error('onCustomRangeClick is not a function');
+    }
     setShowDateRangePicker(false); // Close DateRangePicker after selection
   };
 
@@ -54,12 +58,12 @@ const ChartControlsCustom = ({
             {tf.label}
           </button>
         ))}
-        <button
+        {/* <button
           onClick={handleCustomRangeClick}
           className={selectedTimeframe === 'custom' ? 'active-custom' : ''}
         >
           <FaCalendarAlt /> Custom
-        </button>
+        </button> */}
       </div>
 
       <div className="chart-toggle-custom">
@@ -76,8 +80,9 @@ const ChartControlsCustom = ({
       {/* Conditionally render DateRangePicker */}
       {showDateRangePicker && (
         <DateRangePicker
-          onSelect={handleDateRangeSelected} // Handle the date range selection
-          onCancel={() => setShowDateRangePicker(false)} // Hide DateRangePicker on cancel
+          isOpen={showDateRangePicker}
+          onRequestClose={() => setShowDateRangePicker(false)} // Hide DateRangePicker when closed
+          onSubmit={handleDateRangeSelected} // Handle date range selection
         />
       )}
     </div>
@@ -89,7 +94,7 @@ ChartControlsCustom.propTypes = {
   onToggle: PropTypes.func.isRequired,
   selectedTimeframe: PropTypes.string.isRequired,
   onTimeframeChange: PropTypes.func.isRequired,
-  onCustomRangeClick: PropTypes.func.isRequired,
+  onCustomRangeClick: PropTypes.func, // Accept the function from parent
   currentPrice: PropTypes.number.isRequired,
   priceChange: PropTypes.number.isRequired,
 };

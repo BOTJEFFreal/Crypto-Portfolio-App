@@ -12,13 +12,13 @@ const DateRangePicker = ({ isOpen, onRequestClose, onSubmit }) => {
   const [startDate, endDate] = dateRange;
 
   const handleChange = (update) => {
-    setDateRange(update);
+    setDateRange(update); // Update the date range
   };
 
   const handleSubmit = () => {
     if (startDate && endDate) {
-      onSubmit(startDate, endDate);
-      onRequestClose();
+      onSubmit(startDate, endDate); // Submit the selected date range
+      onRequestClose(); // Close the modal
     } else {
       alert('Please select both start and end dates.');
     }
