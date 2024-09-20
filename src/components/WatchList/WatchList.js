@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import "./WatchList.css";
 import { CoinContext } from "../../context/CoinContext";
+import AddTokensModal from "../AddTokensModal/AddTokensModal"; // Import AddTokensModal
 
 const Watchlist = () => {
   const { coinsList, setCoinsList } = useContext(CoinContext);
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
   const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
 
@@ -38,10 +40,12 @@ const Watchlist = () => {
     navigate(`/token-data/${id}`);
   };
 
+  // Function to open the modal
   const openModal = () => {
     setIsModalOpen(true);
   };
 
+  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -137,17 +141,7 @@ const Watchlist = () => {
         </div>
       )}
 
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Add Coins to Watchlist</h2>
-            <p>Search and add your favorite coins to the watchlist.</p>
-            <button className="close-modal-button" onClick={closeModal}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      {isModalOpen && <AddTokensModal closeModal={closeModal} />}
     </div>
   );
 };

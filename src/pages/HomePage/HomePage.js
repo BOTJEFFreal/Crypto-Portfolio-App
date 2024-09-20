@@ -7,13 +7,23 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import Header from '../../components/Header/Header';
 import AccountBalance from '../../components/AccountBalance/AccountBalance'; // Ensure correct import path
 import WalletTokens from '../../components/WalletTokens/WalletTokens'; // Import WalletTokens
+import AddTokensModal from '../../components/AddTokensModal/AddTokensModal'; // Import AddTokensModal
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('tokens'); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  }
 
   return (
     <div className="homepage-container">
@@ -24,35 +34,27 @@ const HomePage = () => {
       <div className="tab-navigation">
         <button
           className={`tab-button ${activeTab === 'tokens' ? 'active' : ''}`}
-          onClick={() => handleTabChange('tokens')}
+          onClick={() => setActiveTab('tokens')}
         >
           Tokens
         </button>
         <button
           className={`tab-button ${activeTab === 'watchlist' ? 'active' : ''}`}
-          onClick={() => handleTabChange('watchlist')}
+          onClick={() => setActiveTab('watchlist')}
         >
           Watchlist
         </button>
         <button
           className={`tab-button ${activeTab === 'swaps' ? 'active' : ''}`}
-          onClick={() => handleTabChange('swaps')}
+          onClick={() => setActiveTab('swaps')}
         >
           Swaps
         </button>
       </div>
 
       <div className="tab-content">
-        {activeTab === 'tokens' && (
-          <WalletTokens />
-        )}
-
-        {activeTab === 'watchlist' && (
-          <div className="watchlist-content">
-            <Watchlist /> 
-          </div>
-        )}
-
+        {activeTab === 'tokens' && <WalletTokens />}
+        {activeTab === 'watchlist' && <Watchlist openModal={openModal} />}
         {activeTab === 'swaps' && (
           <div className="empty-state">
             <p>No Swaps Available</p>
@@ -60,6 +62,7 @@ const HomePage = () => {
           </div>
         )}
       </div>
+      
     </div>
   );
 };

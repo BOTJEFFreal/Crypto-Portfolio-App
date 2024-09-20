@@ -1,9 +1,11 @@
+// src/components/SearchBar/SearchBar.jsx
+
 import React, { useEffect, useState, useRef, useContext } from "react";
 import "./SearchBar.css";
 import getCoinList from "../../service/getCoinList";
 import { CoinContext } from "../../context/CoinContext";
 
-function SearchBar() {
+function SearchBar({ containerClass = "" }) {
   const [coins, setCoins] = useState(() => {
     const storedCoins = localStorage.getItem("coinList");
     return storedCoins ? JSON.parse(storedCoins) : [];
@@ -78,7 +80,7 @@ function SearchBar() {
     }
   };
 
-   const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
+  const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
 
   const handleFavoriteClick = (coin, event) => {
     event.stopPropagation();
@@ -105,7 +107,7 @@ function SearchBar() {
   };
 
   return (
-    <div ref={containerRef} className="search-bar-container">
+    <div ref={containerRef} className={`search-bar-container ${containerClass}`}>
       <input
         type="text"
         placeholder="Search for a coin..."
