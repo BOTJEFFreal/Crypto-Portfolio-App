@@ -1,70 +1,161 @@
-# Getting Started with Create React App
+# Crypto-Portfolio App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
 
-## Available Scripts
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Demo](#demo)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+- [Pages](#pages)
+- [Usage](#usage)
 
-In the project directory, you can run:
+## Project Overview
 
-### `npm start`
+Crypto-Portfolio App is a single-page application (SPA) that empowers users to effectively manage their cryptocurrency portfolios. This app offers a range of features including:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Wallet Integration:** Connect and manage your cryptocurrency wallets seamlessly.
+- **Token Tracking:** Add and monitor various tokens in your watch list.
+- **Real-Time Balance Monitoring:** View current balances for each token with live updates.
+- **Historical Data Analysis:** Access and analyze historical balance data based on selected dates.
+- **Allowance Management:** Check and manage token allowances for different smart contracts.
+- **Token Operations:** Perform essential token operations such as transferring tokens or approving allowances.
+- **Visual Data Representation:** Utilize interactive tables, charts, and graphs to visualize token performance and portfolio distribution.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Leveraging modern frontend technologies like React.js and blockchain interaction libraries such as Ethers.js, Crypto-Portfolio App provides a user-friendly and efficient platform for both novice and experienced cryptocurrency enthusiasts to oversee and optimize their digital asset holdings.
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Wallet Connection**
+   - Connect your MetaMask or any other supported wallet.
+   - Option to input a wallet address manually.
 
-### `npm run build`
+2. **Watch List**
+   - Add and manage various tokens in your watch list.
+   - Display current balance for each token in real-time.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Historical Data**
+   - Fetch and display historical balances of tokens.
+   - Utilize a date picker to select specific date ranges.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **Allowance Management**
+   - Check token allowances for different smart contracts.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. **Token Operations**
+   - Transfer tokens to another address.
+   - Approve tokens for specific operations.
 
-### `npm run eject`
+6. **Visual Representations**
+   - Interactive tables, charts, and graphs to visualize token data.
+   - Creative and intuitive data presentation for enhanced user experience.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Demo
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Experience the Crypto-Portfolio App live!
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![Demo Screenshot](./path-to-your-image/demo-screenshot.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+[Live Demo Link](https://your-deployed-app-link.com)
 
-## Learn More
+## Technologies Used
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Frontend:** React.js
+- **Blockchain Interaction:** Ethers.js
+- **Styling:** CSS Modules
+- **State Management:** React Context API
+- **Charts & Graphs:** Chart.js, Sparklines
+- **Routing:** React Router
+- **HTTP Client:** Axios
+- **Deployment:** Vercel/Netlify
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Getting Started
 
-### Code Splitting
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Node.js** (v14 or later)
+- **npm** or **yarn**
+- **MetaMask** extension (for wallet connection)
 
-### Analyzing the Bundle Size
+### Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. **Clone the repository:**
 
-### Making a Progressive Web App
+    ```bash
+    git clone https://github.com/your-username/crypto-portfolio-app.git
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. **Navigate to the project directory:**
 
-### Advanced Configuration
+    ```bash
+    cd crypto-portfolio-app
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+3. **Install dependencies:**
 
-### Deployment
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+4. **Set up environment variables:**
 
-### `npm run build` fails to minify
+    - Create a `.env` file in the root directory.
+    - Add necessary environment variables as per the `.env.example` file.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Running the Application
+
+1. **Start the development server:**
+
+    ```bash
+    npm start
+    # or
+    yarn start
+    ```
+
+2. **Open your browser and navigate to:**
+
+    ```
+    http://localhost:3000
+    ```
+
+
+## Pages
+
+- **HomePage:** Main dashboard for managing tokens, viewing balances, and monitoring transactions.
+- **NotFound:** Fallback page for undefined routes.
+- **TokenDataPage:** Displays comprehensive data and charts for specific tokens.
+
+## Usage
+
+1. **Connect Your Wallet**
+   - Click on the "Connect Wallet" button.
+   - Choose your preferred wallet provider (e.g., MetaMask).
+   - Alternatively, input your wallet address manually.
+
+2. **Manage Watch List**
+   - Navigate to the Watch List section.
+   - Add new tokens by searching and selecting them.
+   - View current balances and manage your tokens.
+
+3. **View Historical Data**
+   - Select a token from your watch list or wallet tokens.
+   - Use the date picker to choose a date range.
+   - Analyze historical balance changes through interactive charts.
+
+4. **Check Allowances**
+   - Access the Allowance section.
+   - View and manage token allowances for different smart contracts.
+
+5. **Perform Token Operations**
+   - Navigate to the Send Transaction section.
+   - Enter the recipient's address, select the asset, and specify the amount to transfer.
+   - Confirm the transaction through your connected wallet.
+
+6. **Monitor Transaction History**
+   - View your past transactions in the Transaction History section.
+   - Check details like transaction hash, block number, sender, and data.
+
