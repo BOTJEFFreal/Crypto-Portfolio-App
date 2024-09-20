@@ -1,78 +1,29 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { CoinContext } from '../../context/CoinContext';
-import { BrowserProvider, formatEther } from 'ethers'; // Import ethers library
+import { formatEther } from 'ethers'; 
 import './TransactionHistory.css';
 import NoDataPlaceholder from '../NoDataPlaceholder/NoDataPlaceholder';
 import { useNavigate } from 'react-router-dom';
+import { fetchTransactionHistory } from '../../apis/transactionHistoryService';
 
 const TransactionHistory = () => {
-  const { chainId } = useContext(CoinContext); // Use chainId from context to determine network
-  const [connectedAddress, setConnectedAddress] = useState(''); // Wallet connection state
+  const { chainId, connectionStatus, connectedAddress } = useContext(CoinContext); 
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
   const navigate = useNavigate();
 
-  // Function to connect MetaMask wallet
-  const connectWallet = async () => {
-    if (window.ethereum) {
-      try {
-        const provider = new BrowserProvider(window.ethereum);
-        const accounts = await provider.send("eth_requestAccounts", []);
-        setConnectedAddress(accounts[0]);
-        fetchTransactionHistory(accounts[0], chainId);
-      } catch (error) {
-        console.error('Error connecting to MetaMask: ', error);
-        setError('Failed to connect wallet.');
-      }
-    } else {
-      alert('MetaMask not detected');
-    }
-  };
-
-  // Fetch transaction history dynamically based on network (mainnet or testnet)
-  const fetchTransactionHistory = async (walletAddress, chainId) => {
-    const apiKey = process.env.REACT_APP_ETHERSCAN_API_KEY;
-    let etherscanApiUrl = '';
-
-    // Check the network and set appropriate API URL
-    if (chainId === 1) {
-      etherscanApiUrl = `https://api.etherscan.io/api`;
-    } else if (chainId === 11155111) {
-      etherscanApiUrl = `https://api-sepolia.etherscan.io/api`;
-    } else {
-      setError('Unsupported network');
-      return;
-    }
-
-    const url = `${etherscanApiUrl}?module=account&action=txlist&address=${walletAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.status !== '1') {
-        setError(data.message || 'Failed to fetch transactions.');
-        setTransactions([]);
-      } else {
-        setTransactions(data.result);
-      }
-    } catch (err) {
-      console.error('Error fetching transaction history:', err);
-      setError('An error occurred while fetching transactions.');
-      setTransactions([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // UseEffect to handle changes in connectionStatus
   useEffect(() => {
-    connectWallet();
-  }, []);
+    if (connectionStatus === 'mainnet' || connectionStatus === 'sepolia') {
+      if (connectedAddress) {
+        fetchTransactionHistory(connectedAddress, chainId, setTransactions, setError, setLoading); // Use the service here
+      }
+    } else if (connectionStatus === 'disconnected') {
+      setTransactions([]);
+      setError('Wallet is disconnected. Please connect your wallet.');
+    }
+  }, [connectionStatus, connectedAddress, chainId]);
 
   // Update transaction explorer links based on network
   const getExplorerLink = (txHash, address, type) => {
@@ -92,7 +43,7 @@ const TransactionHistory = () => {
   };
 
   // Show NoDataPlaceholder when wallet is not connected
-  if (!connectedAddress) {
+  if (connectionStatus === 'disconnected') {
     return (
       <NoDataPlaceholder
         message="Please connect your wallet"

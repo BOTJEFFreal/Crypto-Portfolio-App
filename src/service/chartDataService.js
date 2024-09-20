@@ -1,7 +1,4 @@
-import { getMarketChartData, getOHLCData, getMarketChartRangeData } from './getchartData';
-
-// Get Line Chart Data
-import axios from 'axios';
+import { getMarketChartData, getOHLCData, getMarketChartRangeData } from '../apis/getchartData';
 
 export const getLineChartData = async (id, days, cache) => {
   if (cache.current[`line-${days}`]) {

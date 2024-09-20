@@ -1,10 +1,8 @@
-// src/components/TokenChart/TokenChart.jsx
-
 import React, { useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import Spinner from '../Spinner/Spinner';
 import DateRangePicker from '../DateRangePicker/DateRangePicker';
-import ChartControls from './ChartControls'; 
+import ChartControlsCustom from './ChartControls'; 
 import ChartRenderer from './ChartRenderer';
 import { getLineChartData, getCandleChartData, getCustomChartData } from '../../service/chartDataService';
 import getLineChartOptions from '../../config/lineChartOptions';
@@ -22,20 +20,27 @@ const TokenChart = ({ id, currentPrice }) => {
   const [customRange, setCustomRange] = useState({ from: null, to: null });
   const cache = useRef({});
 
+  // Fetch data for line and candle charts
   const fetchAllData = async (currentTimeframe) => {
     setLoading(true);
     try {
       if (currentTimeframe === 'custom') {
         if (customRange.from && customRange.to) {
           const { lineData, candleData } = await getCustomChartData(id, customRange.from, customRange.to, cache);
+  
+          // Log the API response for debugging
+          console.log("Custom Range Data (Line):", lineData);
+          console.log("Custom Range Data (Candle):", candleData);
+  
           setLineData(lineData);
-          setCandleData(candleData);
+          setCandleData(candleData);  // Ensure candle data is updated for custom range
         }
       } else {
         const [fetchedLineData, fetchedCandleData] = await Promise.all([
           getLineChartData(id, currentTimeframe, cache),
           getCandleChartData(id, currentTimeframe, cache),
         ]);
+  
         setLineData(fetchedLineData);
         setCandleData(fetchedCandleData);
       }
@@ -47,6 +52,7 @@ const TokenChart = ({ id, currentPrice }) => {
       setLoading(false);
     }
   };
+  
 
   const debouncedSetTimeframe = debounce((tf) => {
     setTimeframe(tf);
@@ -67,7 +73,7 @@ const TokenChart = ({ id, currentPrice }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeframe, customRange]);
 
-  // Safely calculate priceChange
+  // Calculate the price change
   const calculatePriceChange = () => {
     if (lineData.length < 2) return 0; // Not enough data to calculate change
     const firstPrice = parseFloat(lineData[0].price);
@@ -93,6 +99,7 @@ const TokenChart = ({ id, currentPrice }) => {
     },
   ];
 
+
   const candleChartSeries = [
     {
       data: candleData.map((item) => ({
@@ -104,20 +111,21 @@ const TokenChart = ({ id, currentPrice }) => {
 
   return (
     <div className="token-chart">
-      <ChartControls
+      <ChartControlsCustom
         isCandlestick={isCandlestick}
         onToggle={setIsCandlestick}
         selectedTimeframe={timeframe}
         onTimeframeChange={handleTimeframeChange}
+        onCustomRangeClick={() => setIsDatePickerOpen(true)}          
         currentPrice={Number(currentPrice) || 0}
-        priceChange={Number(priceChange) || 0} 
+        priceChange={Number(priceChange) || 0}
       />
 
-      <DateRangePicker
-        isOpen={isDatePickerOpen}
-        onRequestClose={() => setIsDatePickerOpen(false)}
-        onSubmit={handleCustomRangeSubmit}
-      />
+<DateRangePicker
+  isOpen={isDatePickerOpen}
+  onRequestClose={() => setIsDatePickerOpen(false)} // Ensure the picker closes on submission
+  onSubmit={handleCustomRangeSubmit} // Ensure the selected dates are passed to this function
+/>
 
       {loading ? (
         <Spinner />

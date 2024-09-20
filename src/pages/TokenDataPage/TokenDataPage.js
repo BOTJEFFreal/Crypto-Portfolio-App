@@ -4,7 +4,7 @@ import BackButton from '../../components/BackButton/BackButton';
 import TokenHeader from '../../components/TokenHeader/TokenHeader';
 import TokenInfo from '../../components/TokenInfo/TokenInfo';
 import TokenChart from '../../components/TokenChart/TokenChart';
-import { getTokenData } from '../../service/getTokenData';
+import { getTokenData } from '../../apis/getTokenData';
 import './TokenDataPage.css';
 
 const TokenDataPage = () => {

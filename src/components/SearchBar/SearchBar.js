@@ -1,8 +1,6 @@
-// src/components/SearchBar/SearchBar.jsx
-
 import React, { useEffect, useState, useRef, useContext } from "react";
 import "./SearchBar.css";
-import getCoinList from "../../service/getCoinList";
+import getCoinList from "../../apis/getCoinList";
 import { CoinContext } from "../../context/CoinContext";
 
 function SearchBar({ containerClass = "" }) {

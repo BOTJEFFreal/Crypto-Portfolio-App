@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import './HomePage.css'; 
-import Watchlist from '../../components/WatchList/WatchList'; 
+import './HomePage.css';
+import Watchlist from '../../components/WatchList/WatchList';
 import Header from '../../components/Header/Header';
 import AccountBalance from '../../components/AccountBalance/AccountBalance';
 import TransactionHistory from '../../components/TransactionHistory/TransactionHistory';
 import SendTransaction from '../../components/SendTransaction/SendTransaction';
+import AllowanceManager from '../../components/AllowanceManager/AllowanceManager';
 
 const HomePage = () => {
-  const [activeTab, setActiveTab] = useState('tokens'); 
+  const [activeTab, setActiveTab] = useState('watchlist');
 
   return (
     <div className="homepage-container">
@@ -16,12 +17,6 @@ const HomePage = () => {
       <AccountBalance />
 
       <div className="tab-navigation">
-        {/* <button
-          className={`tab-button ${activeTab === 'tokens' ? 'active' : ''}`}
-          onClick={() => setActiveTab('tokens')}
-        >
-          Tokens
-        </button> */}
         <button
           className={`tab-button ${activeTab === 'watchlist' ? 'active' : ''}`}
           onClick={() => setActiveTab('watchlist')}
@@ -40,6 +35,12 @@ const HomePage = () => {
         >
           Send ETH
         </button>
+        <button
+          className={`tab-button ${activeTab === 'allowance' ? 'active' : ''}`}
+          onClick={() => setActiveTab('allowance')}
+        >
+          Allowance Manager
+        </button>
       </div>
 
       <div className="tab-content">
@@ -52,6 +53,11 @@ const HomePage = () => {
         {activeTab === 'send' && (
           <div className="send-eth-page">
             <SendTransaction />
+          </div>
+        )}
+        {activeTab === 'allowance' && (
+          <div className="allowance-page">
+            <AllowanceManager />
           </div>
         )}
       </div>

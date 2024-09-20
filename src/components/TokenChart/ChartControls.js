@@ -5,16 +5,20 @@ import { GiCandlestickPhone } from 'react-icons/gi';
 import DateRangePicker from '../DateRangePicker/DateRangePicker';
 import './ChartControls.css';  
 
+
 const ChartControlsCustom = ({ 
   isCandlestick, 
   onToggle, 
   selectedTimeframe, 
   onTimeframeChange, 
-  onCustomRangeClick, 
+  onCustomRangeClick,
   currentPrice, 
   priceChange 
+
 }) => {
   const [showDateRangePicker, setShowDateRangePicker] = useState(false); // Toggle DateRangePicker modal
+
+  
 
   const timeframes = [
     { label: '1D', value: '1' },
@@ -26,9 +30,13 @@ const ChartControlsCustom = ({
   const priceChangeColor = priceChange >= 0 ? 'green' : 'red';
 
   const handleCustomRangeClick = () => {
-    setShowDateRangePicker(true); // Show the DateRangePicker modal
+    if (onCustomRangeClick && typeof onCustomRangeClick === 'function') {
+      onCustomRangeClick();  // Call the passed function when clicked
+    } else {
+      console.error('onCustomRangeClick is not a function');
+    }
+    setShowDateRangePicker(true);
   };
-
   const handleDateRangeSelected = (startDate, endDate) => {
     // Pass the selected date range to the parent component using the callback
     if (onCustomRangeClick && typeof onCustomRangeClick === 'function') {
@@ -58,12 +66,13 @@ const ChartControlsCustom = ({
             {tf.label}
           </button>
         ))}
-        {/* <button
-          onClick={handleCustomRangeClick}
-          className={selectedTimeframe === 'custom' ? 'active-custom' : ''}
-        >
-          <FaCalendarAlt /> Custom
-        </button> */}
+         <button
+        onClick={handleCustomRangeClick}
+        className={selectedTimeframe === 'custom' ? 'active-custom' : ''}
+      >
+           <FaCalendarAlt /> Custom
+      </button>
+
       </div>
 
       <div className="chart-toggle-custom">
@@ -77,12 +86,11 @@ const ChartControlsCustom = ({
         </button>
       </div>
 
-      {/* Conditionally render DateRangePicker */}
       {showDateRangePicker && (
         <DateRangePicker
           isOpen={showDateRangePicker}
-          onRequestClose={() => setShowDateRangePicker(false)} // Hide DateRangePicker when closed
-          onSubmit={handleDateRangeSelected} // Handle date range selection
+          onRequestClose={() => setShowDateRangePicker(false)}
+          onSubmit={handleDateRangeSelected}
         />
       )}
     </div>

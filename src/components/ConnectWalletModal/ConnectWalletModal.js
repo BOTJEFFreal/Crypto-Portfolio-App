@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { CoinContext } from '../../context/CoinContext';
 import './ConnectWalletModal.css';
-import ManualAddressInput from './ManualAddressInput'; 
+import ManualAddressInput from './ManualAddressInput';
+
 const ConnectWalletModal = ({ closeModal }) => {
   const {
     connectedAddress,
@@ -10,7 +11,7 @@ const ConnectWalletModal = ({ closeModal }) => {
     chainId,
     switchToMainnet,
     switchToSepolia,
-    error,
+    connectionStatus, // Access connection status
   } = useContext(CoinContext);
 
   const [manualAddress, setManualAddress] = useState('');
@@ -22,13 +23,17 @@ const ConnectWalletModal = ({ closeModal }) => {
         <span className="close-button" onClick={closeModal}>&times;</span>
 
         <div className="modal-sections">
-          {/* Left Section: Connect/Disconnect and Network Buttons */}
           <div className="modal-left-section">
             <div className="modal-header">
               <h2>{connectedAddress ? 'Disconnect Wallet' : 'Connect Wallet'}</h2>
             </div>
 
-            {error && <p className="error-message">{error}</p>}
+            {/* Display connection status */}
+            <p className="status-message">
+              {connectionStatus === 'disconnected'
+                ? 'Wallet is disconnected.'
+                : `Connected to ${connectionStatus}.`}
+            </p>
 
             {!connectedAddress ? (
               <button onClick={connectWallet} className="modal-wallet-button">
@@ -56,7 +61,6 @@ const ConnectWalletModal = ({ closeModal }) => {
             )}
           </div>
 
-          {/* Right Section: Manual Address Input */}
           <div className="modal-right-section">
             <ManualAddressInput
               manualAddress={manualAddress}
