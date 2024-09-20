@@ -101,6 +101,16 @@ const TransactionHistory = () => {
     );
   }
 
+  // Show NoDataPlaceholder when the network is unsupported
+  if (chainId !== 1 && chainId !== 11155111) {
+    return (
+      <NoDataPlaceholder
+        message="Unsupported Network"
+        description="The selected network is not supported. Please switch to Mainnet or Sepolia Testnet to view transaction history."
+      />
+    );
+  }
+
   if (loading) {
     return <p>Loading transactions...</p>;
   }
