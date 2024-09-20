@@ -48,7 +48,7 @@ const HomePage = () => {
           className={`tab-button ${activeTab === 'swaps' ? 'active' : ''}`}
           onClick={() => setActiveTab('swaps')}
         >
-          Swaps
+          Transactions
         </button>
       </div>
 
