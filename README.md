@@ -56,7 +56,7 @@ Leveraging modern frontend technologies like React.js and blockchain interaction
 
 Experience the Crypto-Portfolio App live!
 
-![Demo Screenshot](./images/1.png,)
+![Demo Screenshot](./images/1.png) (./images/2.png) (./images/3.png) (./images/4.png) (./images/5.png)
 
 [Live Demo Link](https://your-deployed-app-link.com)
 
