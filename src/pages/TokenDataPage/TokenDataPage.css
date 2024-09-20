@@ -1,30 +1,64 @@
 .token-data-page {
   padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  background-color: #1A1A1A;
+  color: white;
+}
+
+.token-header {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.token-header img {
+  width: 50px;
+  height: 50px;
 }
 
 .token-content {
   display: flex;
-  gap: 20px;
-  margin-top: 20px;
+  justify-content: space-between;
+  gap: 20px; /* Adds spacing between the sections */
 }
 
 .left-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  width: 30%; /* 70% width for the chart section */
+  background-color: #24272A;
+  padding: 20px;
+  /* border-radius: 10px; */
 }
 
 .right-section {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
+  width: 70%; /* 30% width for the token information section */
+  background-color: #24272A;
+  /* padding: 20px; */
+  border-radius: 10px;
 }
 
-@media (max-width: 768px) {
-  .token-content {
-    flex-direction: column;
-  }
+/* Styling for the token value, market cap, etc. */
+.token-info {
+  margin-top: 20px;
+}
+
+.token-value {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.price-change {
+  color: #ff4d4f;
+  font-size: 18px;
+}
+
+.market-data-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.market-data-row .market-cap,
+.market-data-row .volume {
+  width: 48%;
 }

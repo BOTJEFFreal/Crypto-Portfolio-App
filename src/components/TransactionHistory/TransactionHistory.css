@@ -1,0 +1,70 @@
+/* src/components/TransactionHistory/TransactionHistory.css */
+
+.transaction-history-container {
+  padding: 20px;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  color: #fff;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.transaction-history-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 12px 15px;
+  border: 1px solid #444;
+  text-align: left;
+}
+
+.transaction-table th {
+  background-color: #333;
+}
+
+.transaction-table tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+
+.transaction-table a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.transaction-table a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .transaction-history-container {
+    padding: 10px;
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    padding: 8px 10px;
+  }
+
+  .transaction-history-container h2 {
+    font-size: 20px;
+  }
+}

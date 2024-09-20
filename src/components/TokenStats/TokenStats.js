@@ -7,31 +7,43 @@ const TokenStats = ({
   tradingVolume24h,
   circulatingSupply,
   totalSupply,
-  maxSupply,
+  allTimeLow,
+  allTimeHigh,
+  marketCapPercentage,
 }) => {
+  const marketCapToVolume = marketCap && tradingVolume24h ? (tradingVolume24h / marketCap).toFixed(2) : 'N/A';
+
   return (
     <div className="token-stats">
-      <h3>Token Statistics</h3>
-      <ul>
-        <li>
-          <strong>Market Cap:</strong> ${marketCap?.toLocaleString() || 'N/A'}
-        </li>
-        <li>
-          <strong>Fully Diluted Valuation:</strong> ${fullyDilutedValuation?.toLocaleString() || 'N/A'}
-        </li>
-        <li>
-          <strong>24 Hour Trading Volume:</strong> ${tradingVolume24h?.toLocaleString() || 'N/A'}
-        </li>
-        <li>
-          <strong>Circulating Supply:</strong> {circulatingSupply?.toLocaleString() || 'N/A'}
-        </li>
-        <li>
-          <strong>Total Supply:</strong> {totalSupply?.toLocaleString() || 'N/A'}
-        </li>
-        <li>
-          <strong>Max Supply:</strong> {maxSupply?.toLocaleString() || 'N/A'}
-        </li>
-      </ul>
+      <div className="stat-item">
+        <strong>Market Cap:</strong>
+        <span>${marketCap?.toLocaleString() || 'N/A'}</span>
+      </div>
+
+      <div className="stat-item">
+        <strong>Total Valuation:</strong>
+        <span>${fullyDilutedValuation?.toLocaleString() || 'N/A'}</span>
+      </div>
+
+      <div className="stat-item">
+        <strong>24h Volume / Market Cap:</strong>
+        <span>{marketCapToVolume}</span>
+      </div>
+
+      <div className="stat-item">
+        <strong>Circulating Supply:</strong>
+        <span>{circulatingSupply?.toLocaleString() || 'N/A'}</span>
+      </div>
+
+      <div className="stat-item">
+        <strong>All-Time Low:</strong>
+        <span>${allTimeLow?.toLocaleString() || 'N/A'}</span>
+      </div>
+
+      <div className="stat-item">
+        <strong>All-Time High:</strong>
+        <span>${allTimeHigh?.toLocaleString() || 'N/A'}</span>
+      </div>
     </div>
   );
 };

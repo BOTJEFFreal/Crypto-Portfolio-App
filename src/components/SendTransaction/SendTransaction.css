@@ -1,0 +1,146 @@
+/* src/components/SendTransaction/SendTransaction.css */
+
+.send-transaction-container {
+  background-color: #1f1f1f;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+  color: #ffffff;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-navigation {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  color: #ffffff;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tab.active {
+  border-bottom: 2px solid #00aaff;
+  font-weight: bold;
+}
+
+.send-transaction-form,
+.receive-transaction-form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.send-transaction-label,
+.receive-transaction-label {
+  margin: 10px 0 5px;
+  font-size: 14px;
+  color: #aaaaaa;
+}
+
+.wallet-address-display {
+  background-color: #2b2b2b;
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  margin-bottom: 15px;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-address-button {
+  background-color: #00aaff;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.copy-address-button:hover {
+  background-color: #0088cc;
+}
+
+.send-transaction-input {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+}
+
+.send-transaction-button {
+  background-color: #00aaff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.send-transaction-button:hover {
+  background-color: #0088cc;
+}
+
+.send-transaction-button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.send-transaction-success {
+  color: #28a745;
+  margin-top: 15px;
+  word-wrap: break-word;
+}
+
+.send-transaction-error {
+  color: #e60000;
+  margin-top: 15px;
+  word-wrap: break-word;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .send-transaction-container {
+    padding: 15px;
+    max-width: 90%;
+    height: auto;
+  }
+
+  .tab {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .send-transaction-button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .copy-address-button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}

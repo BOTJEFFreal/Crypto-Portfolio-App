@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { CoinContext } from '../../context/CoinContext';
 import './ConnectWalletModal.css';
-import ManualAddressInput from './ManualAddressInput'; // Import the manual input component
-
+import ManualAddressInput from './ManualAddressInput'; 
 const ConnectWalletModal = ({ closeModal }) => {
   const {
     connectedAddress,
@@ -13,6 +12,9 @@ const ConnectWalletModal = ({ closeModal }) => {
     switchToSepolia,
     error,
   } = useContext(CoinContext);
+
+  const [manualAddress, setManualAddress] = useState('');
+  const [isManualAddressValid, setIsManualAddressValid] = useState(false);
 
   return (
     <div className="modal-overlay" onClick={closeModal}>
@@ -56,7 +58,11 @@ const ConnectWalletModal = ({ closeModal }) => {
 
           {/* Right Section: Manual Address Input */}
           <div className="modal-right-section">
-            <ManualAddressInput />
+            <ManualAddressInput
+              manualAddress={manualAddress}
+              setManualAddress={setManualAddress}
+              setIsManualAddressValid={setIsManualAddressValid}
+            />
           </div>
         </div>
       </div>

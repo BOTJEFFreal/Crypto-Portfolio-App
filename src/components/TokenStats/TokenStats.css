@@ -1,24 +1,34 @@
 .token-stats {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-  }
-  
-  .token-stats h3 {
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.stat-item strong {
+  color: #00aaff;
+}
+
+.stat-item span {
+  color: #ffffff;
+}
+
+/* Optional - Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .stat-item {
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 15px;
-    font-size: 1.5em;
   }
-  
-  .token-stats ul {
-    list-style-type: none;
-    padding: 0;
+
+  .stat-item span {
+    margin-top: 5px;
   }
-  
-  .token-stats li {
-    margin-bottom: 10px;
-    font-size: 1.1em;
-  }
-  
-  .token-stats strong {
-    color: #333;
-  }
+}

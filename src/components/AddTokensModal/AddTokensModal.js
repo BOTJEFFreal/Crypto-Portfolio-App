@@ -70,9 +70,7 @@ const AddTokensModal = ({ closeModal }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        !event.target.closest('.add-modal-search-section')
-      ) {
+      if (!event.target.closest('.add-modal-search-section')) {
         setShowSuggestions(false);
         setActiveSuggestionIndex(0);
       }
@@ -105,13 +103,24 @@ const AddTokensModal = ({ closeModal }) => {
 
   const handleFavoriteClick = (coin, event) => {
     event.stopPropagation();
-    let updatedTokens;
+    
+    const storedCoins = JSON.parse(localStorage.getItem('coinsList')) || [];
     const coinId = coin.id || (coin.item && coin.item.id);
+    const fullCoinData = storedCoins.find((storedCoin) => storedCoin.id === coinId);
+  
+    if (!fullCoinData) {
+      console.error('Coin not found in stored list.');
+      return;
+    }
+  
+    let updatedTokens;
+  
     if (coinsList.tokens.some((favCoin) => favCoin.id === coinId)) {
       updatedTokens = coinsList.tokens.filter((favCoin) => favCoin.id !== coinId);
     } else {
-      updatedTokens = [...coinsList.tokens, { ...coin, id: coinId }];
+      updatedTokens = [...coinsList.tokens, fullCoinData];
     }
+
     setCoinsList({ tokens: updatedTokens });
     localStorage.setItem('favorites', JSON.stringify(updatedTokens));
   };
@@ -129,17 +138,11 @@ const AddTokensModal = ({ closeModal }) => {
   return (
     <div className="add-modal-overlay" onClick={closeModal}>
       <div className="add-modal-content" onClick={(e) => e.stopPropagation()}>
-
-        {/* Modal Header */}
         <div className="add-modal-header">
           <h2>Add Coins</h2>
           <span className="add-modal-close-button" onClick={closeModal}>&times;</span>
         </div>
-
-        {/* Modal Body */}
         <div className="add-modal-body">
-
-          {/* Search Bar */}
           <SearchBar
             searchQuery={searchQuery}
             handleSearchInputChange={(e) => setSearchQuery(e.target.value)}
@@ -154,14 +157,8 @@ const AddTokensModal = ({ closeModal }) => {
             handleScroll={handleScroll}
             activeSuggestionIndex={activeSuggestionIndex}
           />
-
-          {/* Tabs */}
           <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
-          {/* Main Content */}
           <div className="add-modal-main">
-
-            {/* Coin List */}
             <CoinList
               coins={filteredCoins.slice(0, itemsToShow)}
               selectedCoin={selectedCoin}
@@ -169,10 +166,7 @@ const AddTokensModal = ({ closeModal }) => {
               handleFavoriteClick={handleFavoriteClick}
               coinsList={coinsList}
             />
-
-            {/* Coin Details */}
             <CoinDetails selectedCoin={selectedCoin} activeTab={activeTab} />
-
           </div>
         </div>
       </div>

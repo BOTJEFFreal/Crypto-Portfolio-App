@@ -1,68 +1,61 @@
-/* .wallet-ttokens-container {
-  padding: 20px;
-  background-color: #f8f9fa;
+.watchlist-container {
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
-  margin: 20px auto;
 }
 
-.wallet-tokens-container h2 {
-  margin-bottom: 20px;
+.watchlist-container h2 {
   text-align: center;
   font-size: 24px;
-  color: #333;
+  margin-bottom: 20px;
+  color: #fff;
   font-weight: bold;
 }
 
-.wallet-balance {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 18px;
-  color: #555;
-}
-
-.wallet-balance p {
-  margin: 5px 0;
-}
-
-.table-responsive {
-  overflow-x: auto;
-}
-
-.wallet-tokens-table {
+.watchlist-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
+  margin-top: 20px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.wallet-tokens-table th,
-.wallet-tokens-table td {
-  padding: 12px 16px;
-  text-align: left;
+.watchlist-table th,
+.watchlist-table td {
+  padding: 16px 20px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 18px;
+  font-weight: 600;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.wallet-tokens-table th {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: 600;
+.watchlist-table th {
+  color: #00aaff;
   text-transform: uppercase;
+  border-bottom: 2px solid #00aaff;
 }
 
-.wallet-tokens-table td {
-  color: #555;
+.watchlist-table td {
+  color: #ffffffdc;
 }
 
-.wallet-tokens-table tr:last-child td {
+.watchlist-table tr:last-child td {
   border-bottom: none;
 }
 
-.wallet-tokens-table tr:hover {
-  background-color: #f1f3f5;
+.watchlist-table tr:hover {
+  background-color: #1A1A1A;
+}
+
+.coin-section {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.coin-symbol {
+  padding-top: 5px;
+  color: #BBC0C5;
 }
 
 .coin-info {
@@ -71,68 +64,48 @@
 }
 
 .coin-icon {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   margin-right: 12px;
   border-radius: 50%;
   border: 1px solid #ddd;
 }
 
-.delete-button {
-  background: none;
-  border: none;
-  color: #ff4d4f;
-  cursor: pointer;
-  font-size: 18px;
-  transition: color 0.3s ease;
+.wallet-balance p {
+  font-size: 16px;
+  color: #ffffffdc;
+  margin: 5px 0;
 }
 
-.delete-button:hover {
-  color: #e60000;
-}
-
-.empty-wallet {
+.loading-spinner p {
   text-align: center;
-  padding: 50px;
-  color: #777;
-}
-
-.empty-wallet p {
   font-size: 18px;
-  margin-bottom: 20px;
+  color: #ffffffdc;
 }
 
-.loading-spinner {
-  text-align: center;
-  padding: 50px;
-  color: #555;
+.empty-watchlist-container p {
+  font-size: 18px;
+  color: #ffffffdc;
+  margin-top: 50px;
+}
+
+.table-responsive {
+  overflow-x: auto;
 }
 
 @media (max-width: 768px) {
-  .wallet-tokens-container {
-      padding: 15px;
+  .watchlist-container {
+    padding: 15px;
   }
 
-  .wallet-tokens-table th,
-  .wallet-tokens-table td {
-      padding: 10px;
-      font-size: 14px;
+  .watchlist-table th,
+  .watchlist-table td {
+    padding: 12px 14px;
+    font-size: 16px;
   }
 
   .coin-icon {
-      width: 24px;
-      height: 24px;
+    width: 24px;
+    height: 24px;
   }
-
-  .wallet-tokens-table {
-      box-shadow: none;
-  }
-
-  .wallet-balance {
-      font-size: 16px;
-  }
-
-  .wallet-tokens-container h2 {
-      font-size: 20px;
-  }
-} */
+}

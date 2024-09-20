@@ -3,14 +3,12 @@ import { useParams } from 'react-router-dom';
 import BackButton from '../../components/BackButton/BackButton';
 import TokenHeader from '../../components/TokenHeader/TokenHeader';
 import TokenInfo from '../../components/TokenInfo/TokenInfo';
-import TokenStats from '../../components/TokenStats/TokenStats'; 
 import TokenChart from '../../components/TokenChart/TokenChart';
-
 import { getTokenData } from '../../service/getTokenData';
 import './TokenDataPage.css';
 
 const TokenDataPage = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [tokenData, setTokenData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -42,25 +40,28 @@ const TokenDataPage = () => {
   return (
     <div className="token-data-page">
       <BackButton />
-      <TokenHeader image={tokenData.image} name={tokenData.name} symbol={tokenData.symbol} />
+      <div className="token-header">
+        <TokenHeader image={tokenData.image}
+                     name={tokenData.name} 
+                     symbol={tokenData.symbol} />
+      </div>
       <div className="token-content">
-        <div className="left-section">
-          <TokenInfo
-            currentPrice={tokenData.current_price}
-            marketCap={tokenData.market_cap}
-            totalVolume={tokenData.total_volume}
-          />
-          <TokenStats
-            marketCap={tokenData.market_cap}
-            fullyDilutedValuation={tokenData.fully_diluted_valuation}
-            tradingVolume24h={tokenData.total_volume}
-            circulatingSupply={tokenData.circulating_supply}
-            totalSupply={tokenData.total_supply}
-            maxSupply={tokenData.max_supply}
-          />
-        </div>
         <div className="right-section">
-          <TokenChart id={id} />
+          {/* Pass the current price to TokenChart */}
+          <TokenChart 
+            id={id}
+            currentPrice={tokenData.current_price}
+            priceChange={tokenData.price_change_percentage_24h} 
+          />
+          <TokenInfo
+            marketCap={tokenData.market_cap}
+            totalVolume24h={tokenData.total_volume}
+            circulatingSupply={tokenData.circulating_supply}
+            allTimeLow={tokenData.atl}
+            allTimeHigh={tokenData.ath}
+            dayRangeLow={tokenData.low_24h}
+            dayRangeHigh={tokenData.high_24h}
+          />
         </div>
       </div>
     </div>

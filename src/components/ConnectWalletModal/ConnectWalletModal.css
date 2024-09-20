@@ -1,144 +1,184 @@
+/* ConnectWalletModal.css */
+
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #1a1a1a;
+  width: 60vw;
+  max-width: 800px; /* Optional: set a max width */
+  height: 60vh;
+  max-height: 80vh; /* Optional: set a max height */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Wallet Status at the Top Center */
+.wallet-status {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.wallet-status h2 {
+  font-size: 24px;
+  color: #fff;
+}
+
+.modal-sections {
+  display: flex;
+  flex-grow: 1;
+  margin-top: 20px;
+}
+
+.modal-left-section,
+.modal-right-section {
+  width: 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.modal-wallet-button {
+  padding: 15px 30px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%; /* Make buttons full width */
+  max-width: 250px; /* Optional: set a max width */
+}
+
+.modal-wallet-button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+
+.modal-wallet-button:hover {
+  background-color: #45a049;
+}
+
+.switch-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 100%; /* Make buttons full width */
+  max-width: 250px; /* Optional: set a max width */
+}
+
+.switch-button:hover {
+  background-color: #007B9E;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.network-buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.modal-footer {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-right-section input {
+  padding: 10px;
+  width: 100%;
+  max-width: 300px; /* Optional: set a max width */
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.modal-right-section p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.modal-right-section h2 {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1000px) {
   .modal-content {
-    background-color: #1a1a1a;
-    width: 60vw;
-    height: 60vh;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    color: #fff;
-    position: relative;
-    display: flex;
-    flex-direction: column;
+    width: 90vw;
+    height: auto; /* Let height adjust based on content */
+    max-height: 90vh; /* Ensure it doesn't exceed viewport */
   }
-  
-  .close-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 28px;
-    cursor: pointer;
-    color: #fff;
-  }
-  
-  /* Wallet Status at the Top Center */
-  .wallet-status {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .wallet-status h2 {
-    font-size: 24px;
-    color: #fff;
-  }
-  
+
   .modal-sections {
-    display: flex;
-    flex-grow: 1;
-    margin-top: 20px;
+    flex-direction: column; /* Stack sections vertically */
   }
-  
+
   .modal-left-section,
   .modal-right-section {
-    width: 50%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    width: 100%; /* Full width for each section */
+    padding: 15px;
   }
-  
-  .modal-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .modal-header h2 {
-    font-size: 22px;
-    font-weight: bold;
-    color: #fff;
-  }
-  
-  .modal-wallet-button {
-    padding: 15px 30px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .modal-wallet-button:disabled {
-    background-color: #888;
-    cursor: not-allowed;
-  }
-  
-  .modal-wallet-button:hover {
-    background-color: #45a049;
-  }
-  
+
+  .modal-wallet-button,
   .switch-button {
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    background-color: #008CBA;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-top: 10px;
+    max-width: none; /* Remove max-width restrictions */
+    width: 80%; /* Adjust width for smaller screens */
   }
-  
-  .switch-button:hover {
-    background-color: #007B9E;
-  }
-  
-  .error-message {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
-  }
-  
-  .network-buttons {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .modal-footer {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  
+
   .modal-right-section input {
-    padding: 10px;
-    width: 300px;
-    font-size: 16px;
-    margin-bottom: 10px;
+    max-width: none;
+    width: 80%;
   }
-  
-  .modal-right-section p {
-    font-size: 14px;
-    margin: 5px 0;
-  }
-  
-  .modal-right-section h2 {
-    font-size: 18px;
-    color: #fff;
-    margin-bottom: 15px;
-  }
-  
+}

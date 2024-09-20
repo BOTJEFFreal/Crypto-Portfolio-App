@@ -1,14 +1,27 @@
-.token-info {
-  background-color: #f1f1f1;
-  padding: 15px;
-  border-radius: 8px;
+.tokeninfo-container {
+  padding: 10px;
+  background-color: #24272A;
+  border-top: 1px solid #555;
 }
 
-.token-info p {
-  margin: 10px 0;
-  font-size: 1.1em;
+.tokeninfo-market-data-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
-.token-info strong {
-  color: #333;
+.tokeninfo-item {
+  width: 32%; 
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tokeninfo-item strong {
+  color: #00aaff;
+}
+
+.tokeninfo-item span {
+  color: #fff;
 }

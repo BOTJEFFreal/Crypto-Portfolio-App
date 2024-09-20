@@ -60,33 +60,39 @@ const networks = {
 };
 
 const fetchTokenBalances = async (provider, address, currentChainId) => {
-  const tokenBalances = [];
   const currentNetwork = networks[currentChainId];
   
   if (!currentNetwork) {
     throw new Error('Unsupported network.');
   }
 
-  const signer = await provider.getSigner();
+  const signer = provider.getSigner();
 
   const balancePromises = currentNetwork.tokens.map(async (token) => {
     try {
       const contract = new ethers.Contract(token.address, ERC20_ABI, signer);
       const balanceRaw = await contract.balanceOf(address);
-      const formattedBalance = Number(ethers.formatUnits(balanceRaw, token.decimals)).toFixed(4);
-      
-      if (formattedBalance > 0) {
-        tokenBalances.push({
-          symbol: token.symbol,
-          balance: formattedBalance,
-        });
-      }
+      const formattedBalance = ethers.formatUnits(balanceRaw, token.decimals);
+
+      return {
+        symbol: token.symbol,
+        balance: formattedBalance,
+      };
     } catch (error) {
       console.error(`Error fetching balance for ${token.symbol}:`, error);
+      return null; 
     }
   });
 
-  await Promise.all(balancePromises);
+  const results = await Promise.all(balancePromises);
+
+  const tokenBalances = results
+    .filter((token) => token && parseFloat(token.balance) > 0)
+    .map((token) => ({
+      symbol: token.symbol,
+      balance: parseFloat(token.balance).toFixed(4), 
+    }));
+
   return tokenBalances;
 };
 

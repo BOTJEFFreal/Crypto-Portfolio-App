@@ -1,5 +1,3 @@
-// src/utils/axiosInstance.js
-
 import axios from 'axios';
 import { getCachedData, setCachedData } from './cache';
 
@@ -7,7 +5,6 @@ const axiosInstance = axios.create({
   baseURL: 'https://api.coingecko.com/api/v3',
 });
 
-// Request interceptor to check cache
 axiosInstance.interceptors.request.use((config) => {
   const cachedData = getCachedData(config.url);
   if (cachedData) {
@@ -16,7 +13,6 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor to cache data
 axiosInstance.interceptors.response.use(
   (response) => {
     setCachedData(response.config.url, response.data);

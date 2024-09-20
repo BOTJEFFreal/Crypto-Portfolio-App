@@ -1,22 +1,9 @@
-/* src/index.css */
-
-:root {
-  --background-color: #141618;
-  --text-color: #333333;
-  --link-color: #1a0dab;
-  --button-bg: #4bc0c0;
-  --button-text: #ffffff;
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-.dark-mode {
-  --background-color: #121212;
-  --text-color: #e0e0e0;
-  --link-color: #8ab4f8;
-  --button-bg: #4bc0c0;
-  --button-text: #ffffff;
-}
-
-body {
+html, body, #root {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -33,7 +20,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Loader Styles */
 .loader-container {
   display: flex;
   flex-direction: column;
@@ -42,8 +28,8 @@ a:hover {
 }
 
 .spinner {
-  border: 8px solid #f3f3f3; /* Light grey */
-  border-top: 8px solid var(--button-bg); /* Blue */
+  border: 8px solid #f3f3f3; 
+  border-top: 8px solid var(--button-bg);
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -56,7 +42,6 @@ a:hover {
   100% { transform: rotate(360deg); }
 }
 
-/* Theme Toggle Button */
 .theme-toggle-button {
   position: fixed;
   top: 20px;
@@ -72,4 +57,21 @@ a:hover {
 
 .theme-toggle-button:hover {
   background-color: #3da9a9;
+}
+
+/* Variable Definitions */
+:root {
+  --background-color: #141618;
+  --text-color: #333333;
+  --link-color: #1a0dab;
+  --button-bg: #4bc0c0;
+  --button-text: #ffffff;
+}
+
+.dark-mode {
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --link-color: #8ab4f8;
+  --button-bg: #4bc0c0;
+  --button-text: #ffffff;
 }

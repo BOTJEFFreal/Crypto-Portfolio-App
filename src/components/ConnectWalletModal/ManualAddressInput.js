@@ -1,5 +1,6 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { InfuraProvider, isAddress, formatEther } from 'ethers';
+import './ManualAddressInput.css';
 
 const ManualAddressInput = ({ manualAddress, setManualAddress, setIsManualAddressValid }) => {
   const [manualBalance, setManualBalance] = useState('');
@@ -28,18 +29,18 @@ const ManualAddressInput = ({ manualAddress, setManualAddress, setIsManualAddres
   };
 
   return (
-    <div>
+    <div className="manual-address-container">
       <h2>Or Enter a Wallet Address</h2>
       <input
         type="text"
         placeholder="Enter Ethereum Address"
         value={manualAddress}
         onChange={handleManualAddressChange}
-        style={{ padding: '10px', width: '300px', fontSize: '16px' }}
+        className="manual-address-input"
       />
       {manualAddress && (
         <div>
-          <p style={{ color: isAddress(manualAddress) ? 'green' : 'red' }}>
+          <p className={isAddress(manualAddress) ? 'valid-address' : 'invalid-address'}>
             {isAddress(manualAddress) ? 'Valid Ethereum Address' : 'Invalid Ethereum Address'}
           </p>
           {isAddress(manualAddress) && (

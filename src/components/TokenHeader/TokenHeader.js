@@ -3,10 +3,10 @@ import './TokenHeader.css';
 
 const TokenHeader = ({ image, name, symbol }) => {
   return (
-    <div className="token-header">
-      <img src={image} alt={name} className="token-icon" />
+    <div className="token-header-icon">
+      <img src={image} alt={name} className="token-header-icon" />
       <h2>
-        {name} ({symbol.toUpperCase()})
+        {symbol.toUpperCase()}
       </h2>
     </div>
   );

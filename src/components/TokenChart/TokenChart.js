@@ -2,18 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import Spinner from '../Spinner/Spinner';
 import DateRangePicker from '../DateRangePicker/DateRangePicker';
-import ChartToggle from './ChartToggle';
-import TimeframeButtons from './TimeframeButtons';
+import ChartControls from './ChartControls'; 
 import ChartRenderer from './ChartRenderer';
 import { getLineChartData, getCandleChartData, getCustomChartData } from '../../service/chartDataService';
 import getLineChartOptions from '../../config/lineChartOptions';
 import getCandleChartOptions from '../../config/candleChartOptions';
 import './TokenChart.css';
 
-const TokenChart = ({ id }) => {
+const TokenChart = ({ id, currentPrice }) => {
   const [lineData, setLineData] = useState([]);
   const [candleData, setCandleData] = useState([]);
-  const [timeframe, setTimeframe] = useState('7'); 
+  const [timeframe, setTimeframe] = useState('7');
   const [isCandlestick, setIsCandlestick] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -28,7 +27,7 @@ const TokenChart = ({ id }) => {
         if (customRange.from && customRange.to) {
           const { lineData } = await getCustomChartData(id, customRange.from, customRange.to, cache);
           setLineData(lineData);
-          setCandleData([]); 
+          setCandleData([]);
         }
       } else {
         const [fetchedLineData, fetchedCandleData] = await Promise.all([
@@ -65,52 +64,60 @@ const TokenChart = ({ id }) => {
     fetchAllData(timeframe);
   }, [timeframe, customRange]);
 
-  const isProfit = lineData.length > 0 && parseFloat(lineData[lineData.length - 1].price) > parseFloat(lineData[0].price);
+  const priceChange = lineData.length > 0
+  ? ((lineData[lineData.length - 1].price - lineData[0].price) / lineData[0].price) * 100
+  : 0;
 
-  const lineChartOptions = getLineChartOptions(isProfit, lineData, timeframe);
-  const candleChartOptions = getCandleChartOptions(timeframe);
+const isProfit = priceChange >= 0;
 
-  const lineChartSeries = [
-    {
-      name: 'Price',
-      data: lineData.map((item) => item.price),
-    },
-  ];
+const lineChartOptions = getLineChartOptions(isProfit, lineData, timeframe);
+const candleChartOptions = getCandleChartOptions(timeframe);
 
-  const candleChartSeries = [
-    {
-      data: candleData,
-    },
-  ];
+const lineChartSeries = [
+  {
+    name: 'Price',
+    data: lineData.map((item) => item.price),
+  },
+];
 
-  return (
-    <div className="token-chart">
-      <ChartToggle isCandlestick={isCandlestick} onToggle={setIsCandlestick} />
-      <TimeframeButtons
-        timeframe={timeframe}
-        onChangeTimeframe={handleTimeframeChange}
-        onOpenDatePicker={() => setIsDatePickerOpen(true)}
+const candleChartSeries = [
+  {
+    data: candleData,
+  },
+];
+
+return (
+  <div className="token-chart">
+    <ChartControls
+      isCandlestick={isCandlestick}
+      onToggle={setIsCandlestick}
+      selectedTimeframe={timeframe}
+      onTimeframeChange={handleTimeframeChange}
+      currentPrice={currentPrice}
+      priceChange={priceChange} 
+    />
+
+    <DateRangePicker
+      isOpen={isDatePickerOpen}
+      onRequestClose={() => setIsDatePickerOpen(false)}
+      onSubmit={handleCustomRangeSubmit}
+    />
+
+    {loading ? (
+      <Spinner />
+    ) : error ? (
+      <p className="error">Failed to load historical data.</p>
+    ) : (
+      <ChartRenderer
+        isCandlestick={isCandlestick}
+        lineChartOptions={lineChartOptions}
+        lineChartSeries={lineChartSeries}
+        candleChartOptions={candleChartOptions}
+        candleChartSeries={candleChartSeries}
       />
-      <DateRangePicker
-        isOpen={isDatePickerOpen}
-        onRequestClose={() => setIsDatePickerOpen(false)}
-        onSubmit={handleCustomRangeSubmit}
-      />
-      {loading ? (
-        <Spinner />
-      ) : error ? (
-        <p className="error">Failed to load historical data.</p>
-      ) : (
-        <ChartRenderer
-          isCandlestick={isCandlestick}
-          lineChartOptions={lineChartOptions}
-          lineChartSeries={lineChartSeries}
-          candleChartOptions={candleChartOptions}
-          candleChartSeries={candleChartSeries}
-        />
-      )}
-    </div>
-  );
+    )}
+  </div>
+);
 };
 
 export default TokenChart;

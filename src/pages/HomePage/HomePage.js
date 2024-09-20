@@ -1,21 +1,16 @@
-// src/pages/HomePage/HomePage.jsx
-
 import React, { useState } from 'react';
 import './HomePage.css'; 
 import Watchlist from '../../components/WatchList/WatchList'; 
-import SearchBar from '../../components/SearchBar/SearchBar'; 
 import Header from '../../components/Header/Header';
-import AccountBalance from '../../components/AccountBalance/AccountBalance'; // Ensure correct import path
-import WalletTokens from '../../components/WalletTokens/WalletTokens'; // Import WalletTokens
-import AddTokensModal from '../../components/AddTokensModal/AddTokensModal'; // Import AddTokensModal
+import AccountBalance from '../../components/AccountBalance/AccountBalance';
+import WalletTokens from '../../components/WalletTokens/WalletTokens';
+import AddTokensModal from '../../components/AddTokensModal/AddTokensModal';
+import TransactionHistory from '../../components/TransactionHistory/TransactionHistory';
+import SendTransaction from '../../components/SendTransaction/SendTransaction';
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('tokens'); 
   const [isModalOpen, setIsModalOpen] = useState(false); 
-
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -45,24 +40,35 @@ const HomePage = () => {
           Watchlist
         </button>
         <button
-          className={`tab-button ${activeTab === 'swaps' ? 'active' : ''}`}
-          onClick={() => setActiveTab('swaps')}
+          className={`tab-button ${activeTab === 'transactions' ? 'active' : ''}`}
+          onClick={() => setActiveTab('transactions')}
         >
           Transactions
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'send' ? 'active' : ''}`}
+          onClick={() => setActiveTab('send')}
+        >
+          Send ETH
         </button>
       </div>
 
       <div className="tab-content">
         {activeTab === 'tokens' && <WalletTokens />}
-        {activeTab === 'watchlist' && <Watchlist openModal={openModal} />}
-        {activeTab === 'swaps' && (
-          <div className="empty-state">
-            <p>No Swaps Available</p>
-            <button className="start-swap-button">Start a Swap</button>
+        {activeTab === 'watchlist' && <Watchlist />}
+        {activeTab === 'transactions' && (
+          <div className="transactions-page">
+            <TransactionHistory />
+          </div>
+        )}
+        {activeTab === 'send' && (
+          <div className="send-eth-page">
+            <SendTransaction />
           </div>
         )}
       </div>
-      
+
+      {isModalOpen && <AddTokensModal closeModal={closeModal} />}
     </div>
   );
 };

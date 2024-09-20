@@ -1,5 +1,3 @@
-// src/utils/cache.js
-
 export const getCachedData = (key) => {
     const cached = localStorage.getItem(key);
     if (!cached) return null;
