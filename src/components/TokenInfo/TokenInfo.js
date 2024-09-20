@@ -44,7 +44,7 @@ const TokenInfo = ({
         </div>
       </div>
 
-      <div className="tokeninfo-market-data-row">
+      {/* <div className="tokeninfo-market-data-row">
         <div className="tokeninfo-item">
           <strong>All-Time High</strong>
           <span>${formatNumber(allTimeHigh)}</span>
@@ -57,7 +57,7 @@ const TokenInfo = ({
           <strong>Day Range (24h)</strong>
           <span>${dayRangeLow?.toFixed(2)} - ${dayRangeHigh?.toFixed(2)}</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

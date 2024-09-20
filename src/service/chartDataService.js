@@ -1,6 +1,8 @@
 import { getMarketChartData, getOHLCData, getMarketChartRangeData } from './getchartData';
 
 // Get Line Chart Data
+import axios from 'axios';
+
 export const getLineChartData = async (id, days, cache) => {
   if (cache.current[`line-${days}`]) {
     return cache.current[`line-${days}`];
@@ -10,6 +12,8 @@ export const getLineChartData = async (id, days, cache) => {
     month: 'short',
     day: '2-digit',
     year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   });
 
   const formattedLineData = data.prices
@@ -22,7 +26,6 @@ export const getLineChartData = async (id, days, cache) => {
   cache.current[`line-${days}`] = formattedLineData;
   return formattedLineData;
 };
-
 // Get Candlestick Chart Data
 export const getCandleChartData = async (id, days, cache) => {
   if (cache.current[`candle-${days}`]) {

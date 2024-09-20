@@ -1,3 +1,4 @@
+// src/config/lineChartOptions.js
 
 const getLineChartOptions = (isProfit, lineData, timeframe) => {
   if (!lineData || lineData.length === 0) {
@@ -8,7 +9,6 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
 
-  
   const yAxisMin = minPrice < 0 ? minPrice * 1.1 : minPrice * 0.9;
   const yAxisMax = maxPrice * 1.1;
 
@@ -16,20 +16,27 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
   let labelFormatter = (val) => val;
   let labelStep = 1;
 
-  if (timeframe === '1') { 
-    tickAmount = 12;
+  if (timeframe === '1') { // 1 Day
+    tickAmount = 24; // Increase tickAmount for hourly readings
     labelFormatter = (val) => {
       const date = new Date(val);
       return `${date.getHours()}:00`;
     };
-    labelStep = 2; 
-  } else if (timeframe === '7') { 
-    tickAmount = 7;
+    labelStep = 2; // Show label every 2 hours
+  } else if (timeframe === '7') { // 7 Days
+    tickAmount = 14; // Increase tickAmount for bi-daily readings
     labelFormatter = (val) => {
       const date = new Date(val);
       return `${date.getMonth() + 1}/${date.getDate()}`;
     };
-    labelStep = 1; 
+    labelStep = 1; // Show label every day
+  } else if (timeframe === '30') { // 30 Days
+    tickAmount = 30; // Increase tickAmount for daily readings
+    labelFormatter = (val) => {
+      const date = new Date(val);
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    };
+    labelStep = 1; // Show label every day
   }
 
   const yLabelFormatter = (value) => {
@@ -38,7 +45,8 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
     } else if (value >= 1000) {
       return `$${(value / 1000).toFixed(1)}K`; 
     } else {
-      return `$${value.toFixed(2)}`; }
+      return `$${value.toFixed(2)}`;
+    }
   };
 
   return {
@@ -54,6 +62,7 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
       animations: {
         enabled: false,
       },
+      background: '#1E1E1E', // Optional: Set chart background for better contrast
     },
     stroke: {
       curve: 'smooth', 
@@ -67,6 +76,7 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
         rotate: -45,
         style: {
           fontSize: '12px',
+          colors: '#FFFFFF', // Set label text color to white
         },
         formatter: labelFormatter,
         step: labelStep,
@@ -87,6 +97,7 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
         formatter: yLabelFormatter,
         style: {
           fontSize: '12px',
+          colors: '#FFFFFF', // Set label text color to white
         },
       },
     },
@@ -106,6 +117,7 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
       },
     },
     tooltip: {
+      theme: 'dark', // Change tooltip theme to dark for better visibility
       y: {
         formatter: (value) => `$${value.toLocaleString()}`, 
       },
@@ -116,6 +128,42 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
             ? `${date.getHours()}:00` 
             : `${date.getMonth() + 1}/${date.getDate()}`;
         },
+      },
+      style: {
+        fontSize: '12px',
+        color: '#FFFFFF', // Set tooltip text color to white
+      },
+    },
+    tooltip: {
+      theme: 'dark', // Ensures tooltip background is dark
+      x: {
+        formatter: (val) => {
+          const date = new Date(val);
+          return timeframe === '1' 
+            ? `${date.getHours()}:00` 
+            : `${date.getMonth() + 1}/${date.getDate()}`;
+        },
+      },
+      y: {
+        formatter: (value) => `$${value.toLocaleString()}`,
+      },
+    },
+    dataLabels: {
+      enabled: false, // Disable data labels to reduce clutter
+    },
+    markers: {
+      size: 0, // Remove markers for a cleaner line
+      hover: {
+        size: 4, // Show markers on hover
+      },
+    },
+    // Enable data points beyond tickAmount
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: false,
+        },
+        curve: 'smooth',
       },
     },
   };
