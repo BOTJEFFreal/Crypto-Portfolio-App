@@ -39,11 +39,13 @@ const TokenDataPage = () => {
 
   return (
     <div className="token-data-page">
-      <BackButton />
-      <div className="token-header">
-        <TokenHeader image={tokenData.image}
-                     name={tokenData.name} 
-                     symbol={tokenData.symbol} />
+      <div className="header-container">
+        <BackButton />
+        <TokenHeader 
+          image={tokenData.image} 
+          name={tokenData.name} 
+          symbol={tokenData.symbol} 
+        />
       </div>
       <div className="token-content">
         <div className="right-section">

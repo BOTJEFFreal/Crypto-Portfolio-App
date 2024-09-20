@@ -66,7 +66,6 @@
   flex-grow: 1; /* Allows tab content to fill remaining space */
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Prevent scrollbars */
 }
 
 .empty-state {

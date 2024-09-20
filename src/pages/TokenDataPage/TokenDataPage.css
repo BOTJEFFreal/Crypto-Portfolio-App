@@ -1,7 +1,13 @@
 .token-data-page {
   padding: 20px;
-  background-color: #1A1A1A;
   color: white;
+}
+.header-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .token-header {
@@ -18,7 +24,7 @@
 
 .token-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px; /* Adds spacing between the sections */
 }
 

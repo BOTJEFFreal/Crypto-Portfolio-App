@@ -1,73 +1,102 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { CoinContext } from '../../context/CoinContext';
-import { getEtherscanApiUrl } from '../../utils/etherscan';
+import { BrowserProvider, formatEther } from 'ethers'; // Import ethers library
 import './TransactionHistory.css';
 import NoDataPlaceholder from '../NoDataPlaceholder/NoDataPlaceholder';
 import { useNavigate } from 'react-router-dom';
 
 const TransactionHistory = () => {
-  const { connectedAddress, chainId } = useContext(CoinContext);
+  const { chainId } = useContext(CoinContext); // Use chainId from context to determine network
+  const [connectedAddress, setConnectedAddress] = useState(''); // Wallet connection state
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const navigate = useNavigate(); // For navigation in case needed
+  const navigate = useNavigate();
+
+  // Function to connect MetaMask wallet
+  const connectWallet = async () => {
+    if (window.ethereum) {
+      try {
+        const provider = new BrowserProvider(window.ethereum);
+        const accounts = await provider.send("eth_requestAccounts", []);
+        setConnectedAddress(accounts[0]);
+        fetchTransactionHistory(accounts[0], chainId);
+      } catch (error) {
+        console.error('Error connecting to MetaMask: ', error);
+        setError('Failed to connect wallet.');
+      }
+    } else {
+      alert('MetaMask not detected');
+    }
+  };
+
+  // Fetch transaction history dynamically based on network (mainnet or testnet)
+  const fetchTransactionHistory = async (walletAddress, chainId) => {
+    const apiKey = process.env.REACT_APP_ETHERSCAN_API_KEY;
+    let etherscanApiUrl = '';
+
+    // Check the network and set appropriate API URL
+    if (chainId === 1) {
+      etherscanApiUrl = `https://api.etherscan.io/api`;
+    } else if (chainId === 11155111) {
+      etherscanApiUrl = `https://api-sepolia.etherscan.io/api`;
+    } else {
+      setError('Unsupported network');
+      return;
+    }
+
+    const url = `${etherscanApiUrl}?module=account&action=txlist&address=${walletAddress}&startblock=0&endblock=99999999&sort=asc&apikey=${apiKey}`;
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.status !== '1') {
+        setError(data.message || 'Failed to fetch transactions.');
+        setTransactions([]);
+      } else {
+        setTransactions(data.result);
+      }
+    } catch (err) {
+      console.error('Error fetching transaction history:', err);
+      setError('An error occurred while fetching transactions.');
+      setTransactions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchTransactionHistory = async () => {
-      if (!connectedAddress || !chainId) {
-        setTransactions([]);
-        return;
-      }
+    connectWallet();
+  }, []);
 
-      const etherscanApiUrl = getEtherscanApiUrl(chainId);
-      if (!etherscanApiUrl) {
-        setError('Unsupported network for fetching transactions.');
-        setTransactions([]);
-        return;
-      }
+  // Update transaction explorer links based on network
+  const getExplorerLink = (txHash, address, type) => {
+    let explorerUrl = '#'; // Default unsupported link
 
-      const apiKey = process.env.REACT_APP_ETHERSCAN_API_KEY;
-      if (!apiKey) {
-        setError('Etherscan API key is not set.');
-        setTransactions([]);
-        return;
-      }
+    if (chainId === 1) {
+      explorerUrl = type === 'tx' 
+        ? `https://etherscan.io/tx/${txHash}` 
+        : `https://etherscan.io/address/${address}`;
+    } else if (chainId === 11155111) {
+      explorerUrl = type === 'tx' 
+        ? `https://sepolia.etherscan.io/tx/${txHash}` 
+        : `https://sepolia.etherscan.io/address/${address}`;
+    }
 
-      setLoading(true);
-      setError('');
+    return explorerUrl;
+  };
 
-      try {
-        const response = await fetch(
-          `${etherscanApiUrl}?module=account&action=txlist&address=${connectedAddress}&startblock=0&endblock=99999999&sort=desc&apikey=${apiKey}`
-        );
-
-        const data = await response.json();
-
-        if (data.status !== '1') {
-          setError(data.message || 'Failed to fetch transactions.');
-          setTransactions([]);
-        } else {
-          setTransactions(data.result);
-        }
-      } catch (err) {
-        console.error('Error fetching transaction history:', err);
-        setError('An error occurred while fetching transactions.');
-        setTransactions([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTransactionHistory();
-  }, [connectedAddress, chainId]);
-
+  // Show NoDataPlaceholder when wallet is not connected
   if (!connectedAddress) {
     return (
       <NoDataPlaceholder
         message="Please connect your wallet"
         description="Connect your wallet to view transaction history and track your transactions on the blockchain."
-        // No button provided
       />
     );
   }
@@ -86,14 +115,14 @@ const TransactionHistory = () => {
         message="No Transactions Found"
         description="Send or receive tokens to see your transaction history here."
         buttonText="Send ETH"
-        onButtonClick={() => navigate('/send')} // Navigate to Send ETH tab
+        onButtonClick={() => navigate('/send')}
       />
     );
   }
 
   return (
     <div className="transaction-history-container">
-      <h2>Transaction History</h2>
+      <h2>Transaction History {chainId === 1 ? "(Mainnet)" : "(Sepolia Testnet)"}</h2>
       <div className="table-responsive">
         <table className="transaction-table">
           <thead>
@@ -111,13 +140,7 @@ const TransactionHistory = () => {
               <tr key={tx.hash}>
                 <td>
                   <a
-                    href={
-                      chainId === 1
-                        ? `https://etherscan.io/tx/${tx.hash}`
-                        : chainId === 11155111
-                        ? `https://sepolia.etherscan.io/tx/${tx.hash}`
-                        : '#'
-                    }
+                    href={getExplorerLink(tx.hash, '', 'tx')}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -127,13 +150,7 @@ const TransactionHistory = () => {
                 <td>{tx.blockNumber}</td>
                 <td>
                   <a
-                    href={
-                      chainId === 1
-                        ? `https://etherscan.io/address/${tx.from}`
-                        : chainId === 11155111
-                        ? `https://sepolia.etherscan.io/address/${tx.from}`
-                        : '#'
-                    }
+                    href={getExplorerLink('', tx.from, 'address')}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -142,20 +159,14 @@ const TransactionHistory = () => {
                 </td>
                 <td>
                   <a
-                    href={
-                      chainId === 1
-                        ? `https://etherscan.io/address/${tx.to}`
-                        : chainId === 11155111
-                        ? `https://sepolia.etherscan.io/address/${tx.to}`
-                        : '#'
-                    }
+                    href={getExplorerLink('', tx.to, 'address')}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     {tx.to ? tx.to.slice(0, 6) + '...' : 'Contract Creation'}
                   </a>
                 </td>
-                <td>{(parseFloat(tx.value) / 1e18).toFixed(4)}</td>
+                <td>{formatEther(tx.value)} ETH</td>
                 <td>{new Date(tx.timeStamp * 1000).toLocaleString()}</td>
               </tr>
             ))}

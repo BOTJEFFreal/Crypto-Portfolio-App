@@ -72,10 +72,12 @@ export const CoinProvider = ({ children }) => {
     console.log('Chain changed to:', _chainIdHex);
     const decimalChainId = parseInt(_chainIdHex, 16); 
     setChainId(decimalChainId);
-
+  
     const currentNetwork = supportedNetworks[decimalChainId];
     if (currentNetwork) {
       setNetwork(currentNetwork.name);
+      // Clear tokens when switching chains to avoid stale data
+      setTokens([]); 
       if (providerRef.current && connectedAddress) {
         await fetchEthBalance(providerRef.current, connectedAddress);
         await fetchEthPrice();
@@ -83,10 +85,11 @@ export const CoinProvider = ({ children }) => {
       }
     } else {
       setNetwork('Unsupported Network');
-      setTokens([]);
+      setTokens([]); // Clear tokens for unsupported network
       setError('Unsupported network. Please switch to a supported network.');
     }
   };
+  
 
   const handleAccountsChanged = async (accounts) => {
     if (accounts.length === 0) {
@@ -231,7 +234,7 @@ export const CoinProvider = ({ children }) => {
     try {
       const balance = await provider.getBalance(address);
       const eth = ethers.formatEther(balance); 
-      setEthBalance(Number(eth).toFixed(4)); 
+      setEthBalance(Number(eth)); 
       console.log('ETH Balance:', eth);
     } catch (err) {
       console.error('Error fetching ETH balance:', err);
@@ -266,20 +269,20 @@ export const CoinProvider = ({ children }) => {
     try {
       const signer = await provider.getSigner();
       const tokenBalances = [];
-
+  
       const currentNetwork = supportedNetworks[currentChainId];
       if (!currentNetwork) {
         setError('Unsupported network.');
         setLoadingTokens(false);
         return;
       }
-
+  
       for (const token of currentNetwork.tokens) {
         try {
           const contract = new ethers.Contract(token.address, ERC20_ABI, signer);
           const balanceRaw = await contract.balanceOf(address);
           const formattedBalance = ethers.formatUnits(balanceRaw, token.decimals);
-
+  
           // Fetch token price and sparkline data from CoinGecko
           const priceData = await fetchTokenPriceData(token.id);
           if (Number(formattedBalance) > 0) {
@@ -298,9 +301,10 @@ export const CoinProvider = ({ children }) => {
           console.error(`Error fetching balance for ${token.symbol}:`, tokenError);
         }
       }
-
+  
+      // Set the tokens in the state and log them
       setTokens(tokenBalances);
-      console.log('Token Balances:', tokenBalances);
+      console.log('Fetched Token Balances:', tokenBalances);  // Logging the tokens here after they are set
     } catch (err) {
       console.error('Error fetching token balances:', err);
       setError('Failed to fetch token balances.');
@@ -308,6 +312,7 @@ export const CoinProvider = ({ children }) => {
       setLoadingTokens(false);
     }
   };
+  
 
   // Fetch token price data from CoinGecko
   const fetchTokenPriceData = async (tokenId) => {

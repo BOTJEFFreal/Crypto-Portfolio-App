@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CoinProvider } from './context/CoinContext';
-import Header from './components/Header/Header';
 import HomePage from './pages/HomePage/HomePage';
 import TokenDetail from './components/TokenDetail/TokenDetail';
 import TokenDataPage from './pages/TokenDataPage/TokenDataPage';

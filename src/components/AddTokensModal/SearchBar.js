@@ -43,9 +43,7 @@ const SearchBar = ({
               />
               <span className="add-modal-coin-name">
                 {coin.name || (coin.item && coin.item.name)}{' '}
-                <span className="add-modal-coin-symbol">
-                  ({coin.symbol || (coin.item && coin.item.symbol.toUpperCase())})
-                </span>
+             
               </span>
               <span
                 className="add-modal-favorite-star"

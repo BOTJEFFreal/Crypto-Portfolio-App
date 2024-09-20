@@ -37,14 +37,18 @@ const getCandleChartOptions = (timeframe) => {
     title: {
       text: 'Candlestick Chart',
       align: 'left',
+      style: {
+        color: '#FFFFFF', // Optional: Change title text color to white
+      },
     },
     xaxis: {
       type: 'datetime',
-      categories: [], 
+      categories: [], // This should be populated with your data's datetime values
       labels: {
         rotate: -45,
         style: {
           fontSize: '12px',
+          colors: '#FFFFFF', // Set x-axis label text color to white
         },
         formatter: labelFormatter,
         step: labelStep, 
@@ -64,6 +68,9 @@ const getCandleChartOptions = (timeframe) => {
       },
       labels: {
         formatter: (value) => `$${value}`,
+        style: {
+          colors: '#FFFFFF', // Set y-axis label text color to white
+        },
       },
     },
     grid: {
@@ -90,9 +97,9 @@ const getCandleChartOptions = (timeframe) => {
         const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
         const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
         const date = new Date(w.globals.seriesX[seriesIndex][dataPointIndex]).toLocaleString();
-  
+
         return `
-          <div class="apexcharts-candlestick-tooltip">
+          <div class="apexcharts-candlestick-tooltip" style="background: rgba(0, 0, 0, 0.75); color: #FFFFFF; padding: 10px; border-radius: 5px;">
             <span><strong>Date:</strong> ${date}</span><br/>
             <span><strong>Open:</strong> $${o}</span><br/>
             <span><strong>High:</strong> $${h}</span><br/>

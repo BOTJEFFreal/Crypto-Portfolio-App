@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaChartLine, FaCalendarAlt } from 'react-icons/fa'; 
 import { GiCandlestickPhone } from 'react-icons/gi'; 
+import DateRangePicker from '../DateRangePicker/DateRangePicker';
 import './ChartControls.css';  
 
 const ChartControlsCustom = ({ 
@@ -13,6 +14,8 @@ const ChartControlsCustom = ({
   currentPrice, 
   priceChange 
 }) => {
+  const [showDateRangePicker, setShowDateRangePicker] = useState(false); // New state to show/hide DateRangePicker
+
   const timeframes = [
     { label: '1D', value: '1' },
     { label: '7D', value: '7' },
@@ -21,6 +24,16 @@ const ChartControlsCustom = ({
 
   const formattedPriceChange = priceChange.toFixed(2);
   const priceChangeColor = priceChange >= 0 ? 'green' : 'red';
+
+  const handleCustomRangeClick = () => {
+    setShowDateRangePicker(!showDateRangePicker); // Toggle the DateRangePicker visibility
+    onCustomRangeClick(); // Call the custom range click handler
+  };
+
+  const handleDateRangeSelected = (startDate, endDate) => {
+    // You can pass the selected date range to parent component or handle it here
+    setShowDateRangePicker(false); // Close DateRangePicker after selection
+  };
 
   return (
     <div className="chart-controls-custom">
@@ -42,7 +55,7 @@ const ChartControlsCustom = ({
           </button>
         ))}
         <button
-          onClick={onCustomRangeClick}
+          onClick={handleCustomRangeClick}
           className={selectedTimeframe === 'custom' ? 'active-custom' : ''}
         >
           <FaCalendarAlt /> Custom
@@ -59,6 +72,14 @@ const ChartControlsCustom = ({
           <span className="tooltip-custom">Candlestick Chart</span>
         </button>
       </div>
+
+      {/* Conditionally render DateRangePicker */}
+      {showDateRangePicker && (
+        <DateRangePicker
+          onSelect={handleDateRangeSelected} // Handle the date range selection
+          onCancel={() => setShowDateRangePicker(false)} // Hide DateRangePicker on cancel
+        />
+      )}
     </div>
   );
 };

@@ -15,8 +15,8 @@ const AccountBalance = () => {
     : 'NA';
 
   const [integerPart, decimalPart] = isVisible
-    ? (ethBalance ? parseFloat(ethBalance).toFixed(2).split('.') : ['0', '00'])
-    : ['******', ''];
+    ? (ethBalance ? parseFloat(ethBalance).toFixed(8).split('.') : ['0', '00'])
+    : ['********', ''];
 
   return (
     <div className="account-balance-container">

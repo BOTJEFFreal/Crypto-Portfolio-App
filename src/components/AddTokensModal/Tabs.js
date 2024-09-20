@@ -3,12 +3,12 @@ import React from 'react';
 const Tabs = ({ activeTab, setActiveTab }) => {
   return (
     <div className="add-modal-tabs">
-      <button
+      {/* <button
         className={`add-modal-tab ${activeTab === 'trending' ? 'active' : ''}`}
         onClick={() => setActiveTab('trending')}
       >
         Trending
-      </button>
+      </button> */}
       <button
         className={`add-modal-tab ${activeTab === 'gainers' ? 'active' : ''}`}
         onClick={() => setActiveTab('gainers')}

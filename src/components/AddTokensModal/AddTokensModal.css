@@ -270,3 +270,130 @@
     font-size: 20px;
   }
 }
+
+
+.add-modal-search-section {
+  position: relative;
+  width: 100%;
+}
+
+.add-modal-search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.add-modal-suggestions-list {
+  position: absolute; /* Ensure the dropdown appears below */
+  top: 100%; /* This makes the list appear right below the input */
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 999; /* Ensure dropdown appears above other elements */
+}
+
+.add-modal-suggestion-item {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.add-modal-suggestion-item.active {
+  background-color: #333;
+}
+
+.add-modal-suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+
+.add-modal-coin-logo {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}
+
+.add-modal-coin-name {
+  flex-grow: 1;
+}
+
+.add-modal-favorite-star {
+  cursor: pointer;
+  font-size: 18px;
+  color: gold;
+  margin-left: 10px;
+}
+
+.add-modal-suggestions-list {
+  position: absolute; /* Dropdown appears below the input */
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #1a1a1a; /* Matches modal's background */
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 999; /* Ensure the dropdown appears above other elements */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
+}
+
+.add-modal-suggestions-list {
+  position: absolute;
+  top: 100%; /* Ensure the list appears directly below the input */
+  left: 0;
+  width: 100%;
+  background-color: #1a1a1a;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  margin-top: 5px;
+  list-style-type: none;
+}
+
+.add-modal-suggestion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #1a1a1a;
+}
+
+.add-modal-suggestion-item.active {
+  background-color: #333;
+}
+
+.add-modal-suggestion-item:hover {
+  background-color: #333;
+}
+
+.add-modal-coin-logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.add-modal-favorite-star {
+  cursor: pointer;
+  margin-left: auto;
+  color: gold;
+  font-size: 18px;
+}
+
+.add-modal-suggestions-list::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.add-modal-suggestions-list {
+  scrollbar-width: none;
+}

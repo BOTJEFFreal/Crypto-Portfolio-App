@@ -3,36 +3,25 @@ import './HomePage.css';
 import Watchlist from '../../components/WatchList/WatchList'; 
 import Header from '../../components/Header/Header';
 import AccountBalance from '../../components/AccountBalance/AccountBalance';
-import WalletTokens from '../../components/WalletTokens/WalletTokens';
-import AddTokensModal from '../../components/AddTokensModal/AddTokensModal';
 import TransactionHistory from '../../components/TransactionHistory/TransactionHistory';
 import SendTransaction from '../../components/SendTransaction/SendTransaction';
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState('tokens'); 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  }
 
   return (
     <div className="homepage-container">
-      <Header isHomePage={true}/>
+      <Header isHomePage={true} />
 
       <AccountBalance />
 
       <div className="tab-navigation">
-        <button
+        {/* <button
           className={`tab-button ${activeTab === 'tokens' ? 'active' : ''}`}
           onClick={() => setActiveTab('tokens')}
         >
           Tokens
-        </button>
+        </button> */}
         <button
           className={`tab-button ${activeTab === 'watchlist' ? 'active' : ''}`}
           onClick={() => setActiveTab('watchlist')}
@@ -54,7 +43,6 @@ const HomePage = () => {
       </div>
 
       <div className="tab-content">
-        {activeTab === 'tokens' && <WalletTokens />}
         {activeTab === 'watchlist' && <Watchlist />}
         {activeTab === 'transactions' && (
           <div className="transactions-page">
@@ -67,8 +55,6 @@ const HomePage = () => {
           </div>
         )}
       </div>
-
-      {isModalOpen && <AddTokensModal closeModal={closeModal} />}
     </div>
   );
 };

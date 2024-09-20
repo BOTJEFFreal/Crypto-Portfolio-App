@@ -19,7 +19,7 @@ export const getLineChartData = async (id, days, cache) => {
   const formattedLineData = data.prices
     .map(([timestamp, price]) => ({
       date: formatter.format(new Date(timestamp)),
-      price: parseFloat(price.toFixed(2)),
+      price: parseFloat(price),
     }))
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
