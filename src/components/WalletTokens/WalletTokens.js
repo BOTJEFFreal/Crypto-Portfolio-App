@@ -10,7 +10,7 @@ const Watchlist = () => {
   const { coinsList, setCoinsList } = useContext(CoinContext);
   const navigate = useNavigate();
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   const tokens = coinsList && coinsList.tokens ? coinsList.tokens : [];
 
@@ -41,12 +41,12 @@ const Watchlist = () => {
     navigate(`/token-data/${id}`);
   };
 
-  // Function to open the modal
+  
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
+  
   const closeModal = () => {
     setIsModalOpen(false);
   };

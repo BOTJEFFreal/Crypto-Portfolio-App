@@ -26,7 +26,7 @@ export const CoinProvider = ({ children }) => {
         const network = await provider.getNetwork();
         setChainId(network.chainId);
 
-        // Update connection status based on network
+        
         if (network.chainId === 1) {
           setConnectionStatus('mainnet');
         } else if (network.chainId === 11155111) {

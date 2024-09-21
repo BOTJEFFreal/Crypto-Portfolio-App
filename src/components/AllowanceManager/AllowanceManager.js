@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { CoinContext } from '../../context/CoinContext'; // Use CoinContext for wallet and allowance management
+import { CoinContext } from '../../context/CoinContext'; 
 import { isAddress } from 'ethers'; 
-import CryptoModal from './CryptoModal';
-import './AllowanceManager.css'; // Custom CSS for styling
+import CryptoModal from './CryptoModal/CryptoModal';
+import './AllowanceManager.css'; 
 
 const AllowanceManager = () => {
-  const { connectedAddress, approveAllowance, checkAllowance, connectionStatus } = useContext(CoinContext); // Destructure functions from CoinContext
+  const { connectedAddress, approveAllowance, checkAllowance, connectionStatus } = useContext(CoinContext);
 
   const [spender, setSpender] = useState('');
   const [amount, setAmount] = useState('');
@@ -94,17 +94,20 @@ const AllowanceManager = () => {
             className="form-input"
             value={spender}
             onChange={(e) => setSpender(e.target.value)}
+            placeholder="0x..."
           />
 
           {mode === 'approve' && (
             <>
               <label htmlFor="amount" className="form-label">Amount (MTK)</label>
               <input
-                type="text"
+                type="number"
                 id="amount"
                 className="form-input"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
+                placeholder="Enter amount to approve"
+                min="0"
               />
             </>
           )}
@@ -113,6 +116,7 @@ const AllowanceManager = () => {
             onClick={mode === 'approve' ? handleApprove : handleCheckAllowance}
             disabled={loading}
             className="form-button"
+            aria-label={mode === 'approve' ? 'Approve Allowance' : 'Check Allowance'}
           >
             {loading
               ? mode === 'approve' ? 'Approving...' : 'Checking...'
@@ -123,6 +127,7 @@ const AllowanceManager = () => {
           <button
             onClick={() => setMode(mode === 'approve' ? 'check' : 'approve')}
             className="switch-mode-button"
+            aria-label={mode === 'approve' ? 'Switch to Check Allowance' : 'Switch to Approve Allowance'}
           >
             {mode === 'approve' ? 'Switch to Check Allowance' : 'Switch to Approve Allowance'}
           </button>

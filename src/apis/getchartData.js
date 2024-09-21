@@ -42,6 +42,8 @@ export const getMarketChartRangeData = async (id, from, to) => {
   }
 };
 
+
+
 const handleAxiosError = (error) => {
   if (error.response) {
     throw new Error(`CoinGecko API Error: ${error.response.status} ${error.response.statusText}`);

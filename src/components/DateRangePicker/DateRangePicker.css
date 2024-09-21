@@ -1,4 +1,4 @@
-/* src/components/DateRangePicker/DateRangePicker.css */
+
 
 .date-range-overlay {
   position: fixed;
@@ -16,7 +16,7 @@
   right: auto;
   bottom: auto;
   transform: translate(-50%, -50%);
-  background: #ffffff;
+  background: #24272A;
   padding: 30px;
   border-radius: 8px;
   width: 90%;
@@ -26,7 +26,7 @@
 
 .date-picker-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
@@ -34,6 +34,7 @@
   width: 100%;
   padding: 10px;
   font-size: 1em;
+  margin-left: 10px;
 }
 
 .modal-buttons {

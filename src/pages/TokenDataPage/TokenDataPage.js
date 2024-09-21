@@ -30,7 +30,7 @@ const TokenDataPage = () => {
   }, [id]);
 
   if (error) {
-    return <p>Error: Unable to fetch token data.</p>;
+    return <p>{error}</p>;
   }
 
   if (loading || !tokenData) {

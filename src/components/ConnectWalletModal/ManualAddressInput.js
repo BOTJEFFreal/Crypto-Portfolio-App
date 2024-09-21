@@ -39,12 +39,12 @@ const ManualAddressInput = ({ manualAddress, setManualAddress, setIsManualAddres
         className="manual-address-input"
       />
       {manualAddress && (
-        <div>
+        <div className="validation-feedback">
           <p className={isAddress(manualAddress) ? 'valid-address' : 'invalid-address'}>
-            {isAddress(manualAddress) ? 'Valid Ethereum Address' : 'Invalid Ethereum Address'}
+            {isAddress(manualAddress) ? '✅ Valid Ethereum Address' : '❌ Invalid Ethereum Address'}
           </p>
           {isAddress(manualAddress) && (
-            <p>
+            <p className="balance-display">
               Balance: <strong>{manualBalance} ETH</strong>
             </p>
           )}

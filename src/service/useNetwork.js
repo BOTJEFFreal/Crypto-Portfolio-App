@@ -10,7 +10,7 @@ export const useNetwork = ({ providerRef, connectedAddress, setNetwork, setChain
     const currentNetwork = supportedNetworks[decimalChainId];
     if (currentNetwork) {
       setNetwork(currentNetwork.name);
-      setTokens([]); // Clear tokens when switching chains
+      setTokens([]); 
       if (providerRef.current && connectedAddress) {
         await fetchEthBalance(providerRef.current, connectedAddress, setEthBalance);
         await fetchEthPrice(setEthPrice);

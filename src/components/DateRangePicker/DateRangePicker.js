@@ -1,26 +1,23 @@
+
+
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Modal from 'react-modal';
+import Modal from 'react-modal'; 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateRangePicker.css';
 
-Modal.setAppElement('#root');
-
 const DateRangePicker = ({ isOpen, onRequestClose, onSubmit }) => {
-  const [dateRange, setDateRange] = useState([null, null]); 
-  const [startDate, endDate] = dateRange;
-
-  const handleChange = (update) => {
-    setDateRange(update); // Update the date range
-  };
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handleSubmit = () => {
-    if (startDate && endDate) {
-      onSubmit(startDate, endDate); // Submit the selected date range
-      onRequestClose(); // Close the modal
+    if (startDate && endDate && startDate <= endDate) {
+      onSubmit(startDate, endDate);
+      setStartDate(null);
+      setEndDate(null);
+      onRequestClose(); 
     } else {
-      alert('Please select both start and end dates.');
+      alert('Please select a valid date range.');
     }
   };
 
@@ -31,36 +28,59 @@ const DateRangePicker = ({ isOpen, onRequestClose, onSubmit }) => {
       contentLabel="Select Date Range"
       className="date-range-modal"
       overlayClassName="date-range-overlay"
+      ariaHideApp={false} 
     >
-      <h2>Select Custom Date Range</h2>
+      <h2>Select Date Range</h2>
       <div className="date-picker-container">
-        <DatePicker
-          selectsRange
-          startDate={startDate}
-          endDate={endDate}
-          onChange={handleChange}
-          maxDate={new Date()}
-          isClearable={true}
-          placeholderText="Select a date range"
-          className="range-picker"
-        />
+        <div style={{ display: 'flex', flexDirection: 'column', width: '45%' }}>
+          <label htmlFor="start-date">From:</label>
+          <DatePicker
+            id="start-date"
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+            maxDate={new Date()}
+            dateFormat="yyyy-MM-dd"
+            placeholderText="Select start date"
+            className="range-picker"
+          />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '45%' }}>
+          <label htmlFor="end-date">To:</label>
+          <DatePicker
+            id="end-date"
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            minDate={startDate}
+            maxDate={new Date()}
+            dateFormat="yyyy-MM-dd"
+            placeholderText="Select end date"
+            className="range-picker"
+          />
+        </div>
       </div>
       <div className="modal-buttons">
-        <button onClick={handleSubmit} className="submit-button">
+        <button
+          onClick={handleSubmit}
+          disabled={!startDate || !endDate}
+          className="submit-button"
+        >
           Submit
         </button>
-        <button onClick={onRequestClose} className="cancel-button">
+        <button
+          onClick={onRequestClose}
+          className="cancel-button"
+        >
           Cancel
         </button>
       </div>
     </Modal>
   );
-};
-
-DateRangePicker.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default DateRangePicker;

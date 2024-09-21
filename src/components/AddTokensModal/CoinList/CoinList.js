@@ -1,13 +1,16 @@
+
 import React from 'react';
+import PropTypes from 'prop-types';
+import './CoinList.css'; 
 
 const CoinList = ({ coins, selectedCoin, setSelectedCoin, handleFavoriteClick, coinsList }) => {
   return (
-    <div className="add-modal-coin-list">
-      <ul>
+    <div className="coin-list-container">
+      <ul className="coin-list">
         {coins.map((coin) => (
           <li
             key={coin.id || (coin.item && coin.item.id)}
-            className={`add-modal-coin-item ${
+            className={`coin-item ${
               selectedCoin?.id === coin.id || selectedCoin?.id === (coin.item && coin.item.id) ? 'selected' : ''
             }`}
             onClick={() => setSelectedCoin(coin)}
@@ -15,17 +18,18 @@ const CoinList = ({ coins, selectedCoin, setSelectedCoin, handleFavoriteClick, c
             <img
               src={coin.image || (coin.item && coin.item.small)}
               alt={coin.name || (coin.item && coin.item.name)}
-              className="add-modal-coin-logo"
+              className="coin-logo"
             />
-            <span className="add-modal-coin-name">
+            <span className="coin-name">
               {coin.name || (coin.item && coin.item.name)}{' '}
-              <span className="add-modal-coin-symbol">
-                ({coin.symbol || (coin.item && coin.item.symbol.toUpperCase())})
-              </span>
             </span>
             <span
-              className="add-modal-favorite-star"
-              onClick={(event) => handleFavoriteClick(coin, event)}
+              className="favorite-icon"
+              onClick={(event) => {
+                handleFavoriteClick(coin, event);
+                setSelectedCoin(coin); 
+              }}
+              aria-label="Toggle Favorite"
             >
               {coinsList.tokens.some((favCoin) => favCoin.id === (coin.id || (coin.item && coin.item.id))) ? '★' : '☆'}
             </span>
@@ -34,6 +38,14 @@ const CoinList = ({ coins, selectedCoin, setSelectedCoin, handleFavoriteClick, c
       </ul>
     </div>
   );
+};
+
+CoinList.propTypes = {
+  coins: PropTypes.array.isRequired,
+  selectedCoin: PropTypes.object,
+  setSelectedCoin: PropTypes.func.isRequired,
+  handleFavoriteClick: PropTypes.func.isRequired,
+  coinsList: PropTypes.object.isRequired,
 };
 
 export default CoinList;

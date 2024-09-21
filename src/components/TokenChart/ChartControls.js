@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+
+
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FaChartLine, FaCalendarAlt } from 'react-icons/fa'; 
 import { GiCandlestickPhone } from 'react-icons/gi'; 
-import DateRangePicker from '../DateRangePicker/DateRangePicker';
 import './ChartControls.css';  
-
 
 const ChartControlsCustom = ({ 
   isCandlestick, 
@@ -14,16 +14,13 @@ const ChartControlsCustom = ({
   onCustomRangeClick,
   currentPrice, 
   priceChange 
-
 }) => {
-  const [showDateRangePicker, setShowDateRangePicker] = useState(false); // Toggle DateRangePicker modal
-
   
-
   const timeframes = [
     { label: '1D', value: '1' },
     { label: '7D', value: '7' },
     { label: '30D', value: '30' },
+    { label: '1Y', value: '365' }, 
   ];
 
   const formattedPriceChange = priceChange.toFixed(2);
@@ -31,20 +28,10 @@ const ChartControlsCustom = ({
 
   const handleCustomRangeClick = () => {
     if (onCustomRangeClick && typeof onCustomRangeClick === 'function') {
-      onCustomRangeClick();  // Call the passed function when clicked
+      onCustomRangeClick();  
     } else {
       console.error('onCustomRangeClick is not a function');
     }
-    setShowDateRangePicker(true);
-  };
-  const handleDateRangeSelected = (startDate, endDate) => {
-    // Pass the selected date range to the parent component using the callback
-    if (onCustomRangeClick && typeof onCustomRangeClick === 'function') {
-      onCustomRangeClick(startDate, endDate); // Call the parent function with dates
-    } else {
-      console.error('onCustomRangeClick is not a function');
-    }
-    setShowDateRangePicker(false); // Close DateRangePicker after selection
   };
 
   return (
@@ -66,33 +53,30 @@ const ChartControlsCustom = ({
             {tf.label}
           </button>
         ))}
-         <button
-        onClick={handleCustomRangeClick}
-        className={selectedTimeframe === 'custom' ? 'active-custom' : ''}
-      >
-           <FaCalendarAlt /> Custom
-      </button>
-
+        <button
+          onClick={handleCustomRangeClick}
+          className={selectedTimeframe === 'custom' ? 'active-custom' : ''}
+        >
+          <FaCalendarAlt /> Custom
+        </button>
       </div>
 
       <div className="chart-toggle-custom">
-        <button onClick={() => onToggle(false)} className={!isCandlestick ? 'active-custom' : ''}>
+        <button 
+          onClick={() => onToggle(false)} 
+          className={!isCandlestick ? 'active-custom' : ''}
+        >
           <FaChartLine />
           <span className="tooltip-custom">Line Chart</span>
         </button>
-        <button onClick={() => onToggle(true)} className={isCandlestick ? 'active-custom' : ''}>
+        <button 
+          onClick={() => onToggle(true)} 
+          className={isCandlestick ? 'active-custom' : ''}
+        >
           <GiCandlestickPhone />
           <span className="tooltip-custom">Candlestick Chart</span>
         </button>
       </div>
-
-      {showDateRangePicker && (
-        <DateRangePicker
-          isOpen={showDateRangePicker}
-          onRequestClose={() => setShowDateRangePicker(false)}
-          onSubmit={handleDateRangeSelected}
-        />
-      )}
     </div>
   );
 };
@@ -102,7 +86,7 @@ ChartControlsCustom.propTypes = {
   onToggle: PropTypes.func.isRequired,
   selectedTimeframe: PropTypes.string.isRequired,
   onTimeframeChange: PropTypes.func.isRequired,
-  onCustomRangeClick: PropTypes.func, // Accept the function from parent
+  onCustomRangeClick: PropTypes.func.isRequired, 
   currentPrice: PropTypes.number.isRequired,
   priceChange: PropTypes.number.isRequired,
 };

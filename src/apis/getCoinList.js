@@ -7,7 +7,7 @@ const getCoinList = async (setCoins) => {
   const cacheDuration = 24 * 60 * 60 * 1000; // 24 hours
 
   if (storedCoins && storedTime && now - storedTime < cacheDuration) {
-    setCoins(JSON.parse(storedCoins)); // Use cached data
+    setCoins(JSON.parse(storedCoins)); 
   } else {
     try {
       const response = await axios.get(

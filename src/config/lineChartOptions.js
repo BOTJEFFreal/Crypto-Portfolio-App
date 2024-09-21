@@ -5,7 +5,7 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
     return {};
   }
 
-  const prices = lineData.map(item => item.price);
+  const prices = lineData.map(item => item.y);
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
 
@@ -16,27 +16,27 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
   let labelFormatter = (val) => val;
   let labelStep = 1;
 
-  if (timeframe === '1') { // 1 Day
-    tickAmount = 24; // Increase tickAmount for hourly readings
+  if (timeframe === '1') { 
+    tickAmount = 24; 
     labelFormatter = (val) => {
       const date = new Date(val);
       return `${date.getHours()}:00`;
     };
-    labelStep = 2; // Show label every 2 hours
-  } else if (timeframe === '7') { // 7 Days
-    tickAmount = 14; // Increase tickAmount for bi-daily readings
+    labelStep = 2; 
+  } else if (timeframe === '7' || timeframe === '30') { 
+    tickAmount = 14; 
     labelFormatter = (val) => {
       const date = new Date(val);
       return `${date.getMonth() + 1}/${date.getDate()}`;
     };
-    labelStep = 1; // Show label every day
-  } else if (timeframe === '30') { // 30 Days
-    tickAmount = 30; // Increase tickAmount for daily readings
+    labelStep = 1; 
+  } else if (timeframe === 'custom') { 
+    tickAmount = Math.min(lineData.length, 20); // Increased for more ticks
     labelFormatter = (val) => {
       const date = new Date(val);
       return `${date.getMonth() + 1}/${date.getDate()}`;
     };
-    labelStep = 1; // Show label every day
+    labelStep = 1;
   }
 
   const yLabelFormatter = (value) => {
@@ -62,7 +62,7 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
       animations: {
         enabled: false,
       },
-      background: '#1E1E1E', // Optional: Set chart background for better contrast
+      background: '#1E1E1E', 
     },
     stroke: {
       curve: 'smooth', 
@@ -71,14 +71,19 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
     },
     xaxis: {
       type: 'datetime',
-      categories: lineData.map((item) => item.date),
       labels: {
         rotate: -45,
         style: {
           fontSize: '12px',
-          colors: '#FFFFFF', // Set label text color to white
+          colors: '#FFFFFF', 
         },
         formatter: labelFormatter,
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: 'MMM \'yy',
+          day: 'dd MMM',
+          hour: 'HH:mm',
+        },
         step: labelStep,
       },
       tickAmount: tickAmount,
@@ -97,7 +102,7 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
         formatter: yLabelFormatter,
         style: {
           fontSize: '12px',
-          colors: '#FFFFFF', // Set label text color to white
+          colors: '#FFFFFF', 
         },
       },
     },
@@ -117,47 +122,24 @@ const getLineChartOptions = (isProfit, lineData, timeframe) => {
       },
     },
     tooltip: {
-      theme: 'dark', // Change tooltip theme to dark for better visibility
+      theme: 'dark', 
+      x: {
+        format: 'dd MMM yyyy HH:mm', // Adjusted format
+      },
       y: {
         formatter: (value) => `$${value.toLocaleString()}`, 
       },
-      x: {
-        formatter: (val) => {
-          const date = new Date(val);
-          return timeframe === '1' 
-            ? `${date.getHours()}:00` 
-            : `${date.getMonth() + 1}/${date.getDate()}`;
-        },
-      },
-      style: {
-        fontSize: '12px',
-        color: '#FFFFFF', // Set tooltip text color to white
-      },
-    },
-    tooltip: {
-      theme: 'dark', // Ensures tooltip background is dark
-      x: {
-        formatter: (val) => {
-          const date = new Date(val);
-          return timeframe === '1' 
-            ? `${date.getHours()}:00` 
-            : `${date.getMonth() + 1}/${date.getDate()}`;
-        },
-      },
-      y: {
-        formatter: (value) => `$${value.toLocaleString()}`,
-      },
     },
     dataLabels: {
-      enabled: false, // Disable data labels to reduce clutter
+      enabled: false, 
     },
     markers: {
-      size: 0, // Remove markers for a cleaner line
+      size: 0, 
       hover: {
-        size: 4, // Show markers on hover
+        size: 4, 
       },
     },
-    // Enable data points beyond tickAmount
+    
     plotOptions: {
       line: {
         dataLabels: {

@@ -4,7 +4,7 @@ import { formatEther } from 'ethers';
 import './TransactionHistory.css';
 import NoDataPlaceholder from '../NoDataPlaceholder/NoDataPlaceholder';
 import { useNavigate } from 'react-router-dom';
-import { fetchTransactionHistory } from '../../apis/transactionHistoryService';
+import { fetchTransactionHistory } from '../../service/transactionHistoryService';
 
 const TransactionHistory = () => {
   const { chainId, connectionStatus, connectedAddress } = useContext(CoinContext); 
@@ -19,7 +19,7 @@ const TransactionHistory = () => {
       if (connectedAddress) {
         fetchTransactionHistory(connectedAddress, chainId, setTransactions, setError, setLoading); // Use the service here
       }
-    } else if (connectionStatus === 'disconnected') {
+    } else if (connectionStatus === 'disconnected') { 
       setTransactions([]);
       setError('Wallet is disconnected. Please connect your wallet.');
     }

@@ -1,8 +1,15 @@
-.add-modal-content strong {
-  color: #ddd;
-  font-weight: bold;
+.add-modal-content {
+  background-color: #26292C;
+  width: 80%;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
-
 
 .add-modal-overlay {
   position: fixed;
@@ -17,19 +24,6 @@
   z-index: 1000;
 }
 
-.add-modal-content {
-  background-color: #26292C;
-  width: 80%;
-  max-width: 800px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  color: #333;
-  font-family: Arial, sans-serif;
-}
-
 .add-modal-header {
   display: flex;
   justify-content: space-between;
@@ -37,36 +31,22 @@
   margin-bottom: 20px;
 }
 
-.add-modal-header h2 {
+.add-modal-header h2,
+.add-modal-close-button {
   font-size: 24px;
   color: #f5f5f5;
+  background-color: #26292C;
 }
 
 .add-modal-close-button {
-  font-size: 28px;
   cursor: pointer;
-  color: #f5f5f5;
-}
-
-.add-modal-search-section {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.add-modal-search-input {
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  font-size: 28px;
 }
 
 .add-modal-tabs {
   display: flex;
-  justify-content: flex-start;
-  border-bottom: 1px solid #333;
   margin-top: 20px;
+  border-bottom: 1px solid #333;
 }
 
 .add-modal-tab {
@@ -77,15 +57,11 @@
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  position: relative;
   margin-right: 20px;
 }
 
+.add-modal-tab.active,
 .add-modal-tab:hover {
-  color: #00aaff;
-}
-
-.add-modal-tab.active {
   color: #00aaff;
 }
 
@@ -107,32 +83,24 @@
   margin-top: 20px;
 }
 
-.add-modal-coin-list {
+.add-modal-coin-list,
+.add-modal-coin-details {
   width: 45%;
   max-height: 400px;
   overflow-y: auto;
-  border-right: 1px solid #ddd;
-  padding-right: 20px;
 }
 
-.add-modal-coin-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.add-modal-coin-list {
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
 }
 
 .add-modal-coin-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 10px 0;
   cursor: pointer;
   transition: background-color 0.3s;
-}
-
-.add-modal-coin-item:hover,
-.add-modal-coin-item.selected {
-  /* background-color: #f0f0f0; */
 }
 
 .add-modal-coin-logo {
@@ -149,23 +117,10 @@
   color: #f5f5f5;
 }
 
-.add-modal-coin-symbol {
-  color: #666;
-  margin-left: 5px;
-  font-weight: normal;
-}
-
 .add-modal-favorite-star {
-  margin-left: auto;
-  cursor: pointer;
   font-size: 20px;
-  color: #ff9800;
-}
-
-.add-modal-coin-details {
-  width: 50%;
-  max-height: 400px;
-  overflow-y: auto;
+  color: gold;
+  cursor: pointer;
 }
 
 .add-modal-coin-detail {
@@ -173,6 +128,7 @@
   justify-content: space-between;
   padding: 12px 5px;
   font-size: 16px;
+  color: #ccc;
 }
 
 .add-modal-coin-detail.positive {
@@ -183,46 +139,52 @@
   color: #BF4024;
 }
 
-.add-modal-coin-detail.graph {
-  margin-bottom: 16px;
-}
-
-.chart {
-  background-color: #f5f5f5;
-  width: 100%;
-  height: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  border-radius: 5px;
+.add-modal-search-section {
+  position: relative;
   margin-bottom: 20px;
 }
 
-.add-modal-select-message {
-  text-align: center;
-  color: #777;
+.add-modal-search-input {
+  width: 100%;
+  padding: 10px;
   font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
-.add-modal-coin-detail-value{
-  color: #ccc;
+.add-modal-suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #1a1a1a;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.coin-modal-graph{
+.add-modal-suggestion-item {
+  padding: 10px;
+  cursor: pointer;
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
-.add-modal-coin-list::-webkit-scrollbar,
-.add-modal-coin-details::-webkit-scrollbar {
-  width: 5px;
+.add-modal-suggestion-item.active,
+.add-modal-suggestion-item:hover {
+  background-color: #333;
 }
 
-.add-modal-coin-list::-webkit-scrollbar-thumb,
-.add-modal-coin-details::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 10px;
+.add-modal-coin-logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.add-modal-suggestions-list::-webkit-scrollbar {
+  width: 0;
 }
 
 @media (max-width: 768px) {
@@ -242,13 +204,9 @@
     border: none;
   }
 
-  .add-modal-coin-list {
-    margin-bottom: 20px;
-  }
-
   .add-modal-search-input {
     font-size: 14px;
-    padding: 8px 35px 8px 12px;
+    padding: 8px;
   }
 
   .add-modal-coin-logo {
@@ -264,136 +222,4 @@
   .add-modal-coin-detail {
     font-size: 14px;
   }
-
-  .chart {
-    height: 120px;
-    font-size: 20px;
-  }
-}
-
-
-.add-modal-search-section {
-  position: relative;
-  width: 100%;
-}
-
-.add-modal-search-input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.add-modal-suggestions-list {
-  position: absolute; /* Ensure the dropdown appears below */
-  top: 100%; /* This makes the list appear right below the input */
-  left: 0;
-  width: 100%;
-  background-color: white;
-  border: 1px solid #ccc;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 999; /* Ensure dropdown appears above other elements */
-}
-
-.add-modal-suggestion-item {
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.add-modal-suggestion-item.active {
-  background-color: #333;
-}
-
-.add-modal-suggestion-item:hover {
-  background-color: #f0f0f0;
-}
-
-.add-modal-coin-logo {
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-}
-
-.add-modal-coin-name {
-  flex-grow: 1;
-}
-
-.add-modal-favorite-star {
-  cursor: pointer;
-  font-size: 18px;
-  color: gold;
-  margin-left: 10px;
-}
-
-.add-modal-suggestions-list {
-  position: absolute; /* Dropdown appears below the input */
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background-color: #1a1a1a; /* Matches modal's background */
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 999; /* Ensure the dropdown appears above other elements */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
-}
-
-.add-modal-suggestions-list {
-  position: absolute;
-  top: 100%; /* Ensure the list appears directly below the input */
-  left: 0;
-  width: 100%;
-  background-color: #1a1a1a;
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 0;
-  margin-top: 5px;
-  list-style-type: none;
-}
-
-.add-modal-suggestion-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  cursor: pointer;
-  color: #ffffff;
-  background-color: #1a1a1a;
-}
-
-.add-modal-suggestion-item.active {
-  background-color: #333;
-}
-
-.add-modal-suggestion-item:hover {
-  background-color: #333;
-}
-
-.add-modal-coin-logo {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-}
-
-.add-modal-favorite-star {
-  cursor: pointer;
-  margin-left: auto;
-  color: gold;
-  font-size: 18px;
-}
-
-.add-modal-suggestions-list::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
-
-.add-modal-suggestions-list {
-  scrollbar-width: none;
 }
